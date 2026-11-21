@@ -67,11 +67,16 @@ class Itr2Engine(TaxEngine):
         slab_taxable = round_to_nearest_10(base.taxable_income + other_stcg)
         slab_tax = compute_slab_tax(slab_taxable, C.OLD_REGIME_SLABS)
 
-        # Rebate u/s 87A applies ONLY against slab tax, NOT against 111A / 112A
-        rebate, slab_tax_after_rebate = apply_rebate_old(slab_tax, slab_taxable)
+        total_income = round_to_nearest_10(slab_taxable + stcg_111a + ltcg_112a + ltcg_112)
+
+        # Rebate u/s 87A: available ONLY if TOTAL INCOME <= Rs. 5 Lakh in Old Regime
+        if total_income <= C.OLD_REGIME_REBATE_INCOME_LIMIT:
+            rebate, slab_tax_after_rebate = apply_rebate_old(slab_tax, slab_taxable)
+        else:
+            rebate = 0.0
+            slab_tax_after_rebate = slab_tax
 
         tax_before_surcharge = slab_tax_after_rebate + total_special_tax
-        total_income = round_to_nearest_10(slab_taxable + stcg_111a + ltcg_112a + ltcg_112)
 
         # Surcharge (capital gains surcharge capped at 15%)
         surcharge = compute_surcharge(tax_before_surcharge, total_income, is_new_regime=False)
@@ -139,11 +144,18 @@ class Itr2Engine(TaxEngine):
         slab_taxable = round_to_nearest_10(base.taxable_income + other_stcg)
         slab_tax = compute_slab_tax(slab_taxable, C.NEW_REGIME_SLABS)
 
-        # Rebate / Marginal Relief on normal slab income
-        rebate, marginal_relief, slab_tax_after_rebate = apply_rebate_and_marginal_relief_new(slab_tax, slab_taxable)
+        total_income = round_to_nearest_10(slab_taxable + stcg_111a + ltcg_112a + ltcg_112)
+
+        # Rebate / Marginal Relief under Sec 87A:
+        # Evaluated against TOTAL INCOME (if total income > 12L, NO 87A rebate)
+        if total_income <= C.NEW_REGIME_REBATE_INCOME_LIMIT:
+            rebate, marginal_relief, slab_tax_after_rebate = apply_rebate_and_marginal_relief_new(slab_tax, total_income)
+        else:
+            rebate = 0.0
+            marginal_relief = 0.0
+            slab_tax_after_rebate = slab_tax
 
         tax_before_surcharge = slab_tax_after_rebate + total_special_tax
-        total_income = round_to_nearest_10(slab_taxable + stcg_111a + ltcg_112a + ltcg_112)
 
         surcharge = compute_surcharge(tax_before_surcharge, total_income, is_new_regime=True)
         cess = apply_cess(tax_before_surcharge + surcharge)
