@@ -1,0 +1,15 @@
+/.gitkeep
+/Syntax
+*.env
+.env
+__pycache__/
+*.pyc
+*.db
+*.db-shm
+*.db-wal
+.pytest_cache/
+node_modules/
+AITR/backend/uploads/*
+!AITR/backend/uploads/.gitkeep
+AITR/backend/reports/*
+!AITR/backend/reports/.gitkeep

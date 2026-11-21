@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 # Add backend directory to sys.path so all internal modules resolve cleanly
-_backend_dir = str(Path(__file__).resolve().parent / "AITR" / "backend")
+_backend_dir = str(Path(__file__).resolve().parent / "backend")
 if _backend_dir not in sys.path:
     sys.path.insert(0, _backend_dir)
 
@@ -55,7 +55,7 @@ def health_check():
 
 
 # Serve built frontend static assets if available
-FRONTEND_DIST = os.path.abspath(os.path.join(os.path.dirname(__file__), "AITR", "frontend", "dist"))
+FRONTEND_DIST = os.path.abspath(os.path.join(os.path.dirname(__file__), "frontend", "dist"))
 
 if os.path.exists(FRONTEND_DIST):
     app.mount("/assets", StaticFiles(directory=os.path.join(FRONTEND_DIST, "assets")), name="assets")
