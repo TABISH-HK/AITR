@@ -9,11 +9,7 @@ __pycache__/
 *.db-wal
 .pytest_cache/
 node_modules/
-backend/uploads/*
-!backend/uploads/.gitkeep
-backend/reports/*
-!backend/reports/.gitkeep
-ITR-System/backend/uploads/*
-!ITR-System/backend/uploads/.gitkeep
-ITR-System/backend/reports/*
-!ITR-System/backend/reports/.gitkeep
+AITR/backend/uploads/*
+!AITR/backend/uploads/.gitkeep
+AITR/backend/reports/*
+!AITR/backend/reports/.gitkeep
