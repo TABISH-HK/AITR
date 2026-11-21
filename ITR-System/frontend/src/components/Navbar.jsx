@@ -23,7 +23,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
               <div className="flex items-center space-x-2">
                 <span className="font-bold text-lg text-slate-900 tracking-tight">AI-Based ITR System</span>
                 <span className="text-xs bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-full font-medium border border-indigo-200">
-                  AY 2025-26
+                  AY 2026-27 (FY 2025-26)
                 </span>
               </div>
               <div className="text-xs text-slate-500 hidden sm:block">

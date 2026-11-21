@@ -21,7 +21,7 @@ def test_health_endpoint():
     res = client.get("/api/health")
     assert res.status_code == 200
     assert res.json()["status"] == "healthy"
-    assert res.json()["assessment_year"] == "2025-26"
+    assert res.json()["assessment_year"] == "2026-27"
 
 def test_upload_endpoint():
     sample_pdf = os.path.join(os.path.dirname(__file__), "sample_itr1_document.pdf")
@@ -92,7 +92,7 @@ def test_compute_and_report_flow():
     comp_res = client.post(f"/api/compute/{ext_id}")
     assert comp_res.status_code == 200
     comp_data = comp_res.json()
-    assert comp_data["assessment_year"] == "2025-26"
+    assert comp_data["assessment_year"] == "2026-27"
     assert comp_data["recommended_regime"] in ("OLD", "NEW", "EQUAL")
     computation_id = comp_data["computation_id"]
 

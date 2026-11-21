@@ -140,10 +140,22 @@ export default function ResultsPage({ data, onEditAgain, onNewUpload }) {
               <span className="text-slate-500">Base Slab Tax</span>
               <span className="text-slate-800">{formatCurrency(old_regime.base_tax)}</span>
             </div>
+            {old_regime.special_rate_tax > 0 && (
+              <div className="flex justify-between py-1 border-b border-slate-100">
+                <span className="text-slate-500">Special-Rate Tax (Capital Gains)</span>
+                <span className="text-slate-800">{formatCurrency(old_regime.special_rate_tax)}</span>
+              </div>
+            )}
             <div className="flex justify-between py-1 border-b border-slate-100">
               <span className="text-slate-500">Section 87A Rebate</span>
               <span className="text-emerald-600">- {formatCurrency(old_regime.rebate_87a)}</span>
             </div>
+            {old_regime.surcharge > 0 && (
+              <div className="flex justify-between py-1 border-b border-slate-100">
+                <span className="text-slate-500">Surcharge</span>
+                <span className="text-slate-800">{formatCurrency(old_regime.surcharge)}</span>
+              </div>
+            )}
             <div className="flex justify-between py-1 border-b border-slate-100">
               <span className="text-slate-500">Cess (4%)</span>
               <span className="text-slate-800">{formatCurrency(old_regime.cess)}</span>
@@ -195,10 +207,28 @@ export default function ResultsPage({ data, onEditAgain, onNewUpload }) {
               <span className="text-slate-500">Base Slab Tax</span>
               <span className="text-slate-800">{formatCurrency(new_regime.base_tax)}</span>
             </div>
+            {new_regime.special_rate_tax > 0 && (
+              <div className="flex justify-between py-1 border-b border-slate-100">
+                <span className="text-slate-500">Special-Rate Tax (Capital Gains)</span>
+                <span className="text-slate-800">{formatCurrency(new_regime.special_rate_tax)}</span>
+              </div>
+            )}
             <div className="flex justify-between py-1 border-b border-slate-100">
-              <span className="text-slate-500">Section 87A Rebate</span>
+              <span className="text-slate-500">Section 87A Rebate (&le; ₹12L)</span>
               <span className="text-emerald-600">- {formatCurrency(new_regime.rebate_87a)}</span>
             </div>
+            {new_regime.marginal_relief > 0 && (
+              <div className="flex justify-between py-1 border-b border-slate-100">
+                <span className="text-slate-500">Marginal Relief u/s 87A</span>
+                <span className="text-emerald-600">- {formatCurrency(new_regime.marginal_relief)}</span>
+              </div>
+            )}
+            {new_regime.surcharge > 0 && (
+              <div className="flex justify-between py-1 border-b border-slate-100">
+                <span className="text-slate-500">Surcharge</span>
+                <span className="text-slate-800">{formatCurrency(new_regime.surcharge)}</span>
+              </div>
+            )}
             <div className="flex justify-between py-1 border-b border-slate-100">
               <span className="text-slate-500">Cess (4%)</span>
               <span className="text-slate-800">{formatCurrency(new_regime.cess)}</span>

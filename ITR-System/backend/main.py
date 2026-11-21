@@ -51,7 +51,7 @@ def health_check():
     return {
         "status": "healthy",
         "system": "AI-Based ITR Computation System",
-        "assessment_year": "2025-26",
+        "assessment_year": "2026-27",
     }
 
 

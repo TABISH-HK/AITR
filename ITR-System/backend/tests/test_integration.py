@@ -30,7 +30,7 @@ def test_report_generators_create_valid_files(tmp_path):
     }
     result = engine.compute(data)
     comp_dict = result.to_dict()
-    comp_dict["assessment_year"] = "2025-26"
+    comp_dict["assessment_year"] = "2026-27"
     comp_dict["computed_at"] = "2026-11-21T13:50:00"
 
     doc_meta = {

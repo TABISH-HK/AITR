@@ -12,9 +12,11 @@ export default function ReviewPage({ extractionData, onComputeComplete, onBack }
     pan: initialFields.pan || '',
     gross_salary: initialFields.gross_salary ?? 0,
     exemptions_u10: initialFields.exemptions_u10 ?? 0,
+    professional_tax: initialFields.professional_tax ?? 0,
     house_property_income: initialFields.house_property_income ?? 0,
     other_income: initialFields.other_income ?? 0,
     deduction_80c: initialFields.deduction_80c ?? 0,
+    deduction_80ccd1b: initialFields.deduction_80ccd1b ?? 0,
     deduction_80d: initialFields.deduction_80d ?? 0,
     deduction_80tta: initialFields.deduction_80tta ?? 0,
     other_deductions: initialFields.other_deductions ?? 0,
@@ -249,7 +251,7 @@ export default function ReviewPage({ extractionData, onComputeComplete, onBack }
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-medium text-slate-600 mb-1">
-                  STCG u/s 111A (Listed Equity @ 15%)
+                  STCG u/s 111A (Listed Equity @ 20%)
                 </label>
                 <input
                   type="number"
@@ -261,7 +263,7 @@ export default function ReviewPage({ extractionData, onComputeComplete, onBack }
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-600 mb-1">
-                  LTCG u/s 112A (Listed Equity @ 10% after ₹1L exemption)
+                  LTCG u/s 112A (Listed Equity @ 12.5% above ₹1.25L exemption)
                 </label>
                 <input
                   type="number"
