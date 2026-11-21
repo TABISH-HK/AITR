@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 # Add backend directory to sys.path
-_backend_dir = str(Path(__file__).resolve().parent.parent / "ITR-System" / "backend")
+_backend_dir = str(Path(__file__).resolve().parent.parent / "backend")
 if _backend_dir not in sys.path:
     sys.path.insert(0, _backend_dir)
 
