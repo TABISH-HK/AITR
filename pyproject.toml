@@ -20,4 +20,4 @@ dependencies = [
 ]
 
 [tool.vercel]
-entrypoint = "ITR-System.backend.main:app"
+entrypoint = "main:app"
