@@ -1,0 +1,40 @@
+sequenceDiagram
+    autonumber
+    actor User as Taxpayer / CA
+    participant UI as React Frontend
+    participant API as FastAPI Router
+    participant DB as SQLite Database
+    participant Ext as Extractor Service
+    participant Eng as Tax Computation Engine
+    participant Rep as Report Generator
+
+    User->>UI: 1. Selects & uploads ITR file (PDF/DOCX)
+    UI->>API: POST /api/upload (file, session_id)
+    API->>DB: Save DocumentModel (status: UPLOADED)
+    API-->>UI: Return document_id
+    
+    UI->>API: POST /api/extract/{document_id}
+    API->>Ext: Parse file & extract fields (Regex + LLM)
+    Ext-->>API: Extracted structured JSON
+    API->>DB: Save ExtractedDataModel
+    API-->>UI: Return extraction_id & extracted fields
+    
+    User->>UI: 2. Reviews/edits values & selects AY
+    UI->>API: PUT /api/review/{extraction_id} (reviewed_json)
+    API->>DB: Update reviewed_json (is_reviewed = true)
+    
+    User->>UI: 3. Clicks "Calculate Tax"
+    UI->>API: POST /api/compute/{extraction_id}
+    API->>Eng: Invoke TaxEngine (AY, Form, Reviewed Data)
+    Eng->>Eng: Compute Old Regime vs New Regime (Slabs, 87A, VDA, Cess)
+    Eng-->>API: Breakdown, Old Tax, New Tax, Recommendation
+    API->>DB: Save ComputationModel
+    API-->>UI: Return computation results
+    
+    User->>UI: 4. Clicks "Download PDF / DOCX Report"
+    UI->>API: POST /api/reports/generate/{comp_id}/{format}
+    API->>Rep: Generate CA-format Report
+    Rep-->>API: File generated
+    API->>DB: Save ReportModel
+    API-->>UI: Return download_url
+    UI->>User: Deliver audit computation report

@@ -1,0 +1,9 @@
+flowchart LR
+    User(["Taxpayer / CA"])
+    System["0.0 AITR System (AI-Driven ITR Computation)"]
+    NVIDIA["External NVIDIA NIM AI"]
+
+    User -->|"Uploads ITR Documents, Edited Values"| System
+    System -->|"Presents Extracted Data, Tax Comparison, CA Reports"| User
+    System -->|"Unstructured Text for Financial Entity Extraction"| NVIDIA
+    NVIDIA -->|"Structured Financial Entities (JSON)"| System

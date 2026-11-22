@@ -1,0 +1,26 @@
+graph TD
+    User(["Taxpayer / CA"])
+    
+    subgraph AITR System
+        UC1["1. Upload ITR Document (PDF/DOCX)"]
+        UC2["2. Extract Financial Data (Regex + NIM AI)"]
+        UC3["3. Review & Correct Extracted Fields"]
+        UC4["4. Select Assessment Year (AY 25-26 / 26-27)"]
+        UC5["5. Compute Tax (Old vs. New Regime)"]
+        UC6["6. View Regime Recommendation & Breakdown"]
+        UC7["7. Download CA Audit Report (PDF/DOCX)"]
+        UC8["8. View Session Computation History"]
+    end
+
+    User --> UC1
+    User --> UC3
+    User --> UC4
+    User --> UC5
+    User --> UC6
+    User --> UC7
+    User --> UC8
+
+    UC1 -.->|triggers| UC2
+    UC2 -.->|populates| UC3
+    UC5 -.->|produces| UC6
+    UC6 -.->|enables| UC7
