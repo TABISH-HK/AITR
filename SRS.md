@@ -172,7 +172,121 @@ graph TD
 ---
 
 ### 5.2 Entity-Relationship (ER) Diagram
-The database schema includes five tables with full referential integrity and cascading deletes.
+
+#### 5.2.1 Classical / Chen's ER Notation (Rectangles, Diamonds, Ovals)
+In standard database modeling (Chen's notation required in academic curricula like AMU MCA):
+* **Rectangles `[...]`** represent **Entities** (strong/weak tables).
+* **Diamonds `{...}`** represent **Relationships** with cardinality ratios (1:N, 1:1).
+* **Ovals `(...)`** represent **Attributes** (with Key attributes underlined / denoted with `PK` or `*`).
+
+```mermaid
+flowchart TD
+    %% Entities (Rectangles)
+    E_SESS["SESSION"]
+    E_DOC["DOCUMENT"]
+    E_EXT["EXTRACTED_DATA"]
+    E_COMP["COMPUTATION"]
+    E_REP["REPORT"]
+
+    %% Relationships (Diamonds)
+    R_HAS{"has (1:N)"}
+    R_PROD{"produces (1:1)"}
+    R_YIELD{"yields (1:N)"}
+    R_GEN{"generates (1:N)"}
+
+    %% Entity Connections to Relationships
+    E_SESS ---|"1"| R_HAS
+    R_HAS ---|"N"| E_DOC
+
+    E_DOC ---|"1"| R_PROD
+    R_PROD ---|"1"| E_EXT
+
+    E_EXT ---|"1"| R_YIELD
+    R_YIELD ---|"N"| E_COMP
+
+    E_COMP ---|"1"| R_GEN
+    R_GEN ---|"N"| E_REP
+
+    %% Attributes of SESSION (Ovals)
+    A_S1(["<u>session_id (PK)</u>"])
+    A_S2(["created_at"])
+    E_SESS --- A_S1
+    E_SESS --- A_S2
+
+    %% Attributes of DOCUMENT (Ovals)
+    A_D1(["<u>document_id (PK)</u>"])
+    A_D2(["session_id (FK)"])
+    A_D3(["file_name"])
+    A_D4(["file_type"])
+    A_D5(["file_path"])
+    A_D6(["form_type"])
+    A_D7(["status"])
+    A_D8(["uploaded_at"])
+    E_DOC --- A_D1
+    E_DOC --- A_D2
+    E_DOC --- A_D3
+    E_DOC --- A_D4
+    E_DOC --- A_D5
+    E_DOC --- A_D6
+    E_DOC --- A_D7
+    E_DOC --- A_D8
+
+    %% Attributes of EXTRACTED_DATA (Ovals)
+    A_X1(["<u>extraction_id (PK)</u>"])
+    A_X2(["document_id (FK)"])
+    A_X3(["extracted_json"])
+    A_X4(["reviewed_json"])
+    A_X5(["is_reviewed"])
+    A_X6(["extracted_at"])
+    E_EXT --- A_X1
+    E_EXT --- A_X2
+    E_EXT --- A_X3
+    E_EXT --- A_X4
+    E_EXT --- A_X5
+    E_EXT --- A_X6
+
+    %% Attributes of COMPUTATION (Ovals)
+    A_C1(["<u>computation_id (PK)</u>"])
+    A_C2(["extraction_id (FK)"])
+    A_C3(["assessment_year"])
+    A_C4(["old_regime_tax"])
+    A_C5(["new_regime_tax"])
+    A_C6(["recommended_regime"])
+    A_C7(["breakdown_json"])
+    A_C8(["computed_at"])
+    E_COMP --- A_C1
+    E_COMP --- A_C2
+    E_COMP --- A_C3
+    E_COMP --- A_C4
+    E_COMP --- A_C5
+    E_COMP --- A_C6
+    E_COMP --- A_C7
+    E_COMP --- A_C8
+
+    %% Attributes of REPORT (Ovals)
+    A_R1(["<u>report_id (PK)</u>"])
+    A_R2(["computation_id (FK)"])
+    A_R3(["format"])
+    A_R4(["file_path"])
+    A_R5(["generated_at"])
+    E_REP --- A_R1
+    E_REP --- A_R2
+    E_REP --- A_R3
+    E_REP --- A_R4
+    E_REP --- A_R5
+
+    %% Styling to reflect standard Chen ER diagram standards
+    classDef entity fill:#dbeafe,stroke:#1d4ed8,stroke-width:2px,color:#1e3a8a,font-weight:bold;
+    classDef rel fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#78350f,font-weight:bold;
+    classDef attr fill:#f3f4f6,stroke:#4b5563,stroke-width:1px,color:#111827;
+
+    class E_SESS,E_DOC,E_EXT,E_COMP,E_REP entity;
+    class R_HAS,R_PROD,R_YIELD,R_GEN rel;
+    class A_S1,A_S2,A_D1,A_D2,A_D3,A_D4,A_D5,A_D6,A_D7,A_D8,A_X1,A_X2,A_X3,A_X4,A_X5,A_X6,A_C1,A_C2,A_C3,A_C4,A_C5,A_C6,A_C7,A_C8,A_R1,A_R2,A_R3,A_R4,A_R5 attr;
+```
+
+#### 5.2.2 Relational Physical Schema (Crow's Foot Notation)
+Complementing the classical conceptual ER diagram, the physical schema below provides exact SQLite column types and constraints:
 
 ```mermaid
 erDiagram
