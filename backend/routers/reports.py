@@ -4,6 +4,7 @@ Generates PDF and DOCX computation sheets and serves file downloads.
 """
 import json
 import os
+import tempfile
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
@@ -15,7 +16,11 @@ from services.report_generator.pdf_report import PdfReportGenerator
 
 router = APIRouter(prefix="/api/reports", tags=["Reports"])
 
-REPORTS_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "reports"))
+if os.environ.get("VERCEL"):
+    REPORTS_DIR = os.path.join(tempfile.gettempdir(), "reports")
+else:
+    REPORTS_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "reports"))
+
 os.makedirs(REPORTS_DIR, exist_ok=True)
 
 
