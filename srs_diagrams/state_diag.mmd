@@ -1,0 +1,22 @@
+stateDiagram-v2
+    [*] --> Initial: Session Start
+    Initial --> Uploaded: PDF/DOCX Upload
+    Uploaded --> Validating: Format & Text Check
+    Validating --> Rejected: Scanned / Invalid
+    Rejected --> [*]
+    Validating --> Parsed: Text Extracted
+    
+    state Extraction_and_Review {
+        Parsed --> Extracting: Regex + LLM
+        Extracting --> Extracted: JSON Fields
+        Extracted --> UnderReview: Review Screen
+        UnderReview --> Reviewed: Data Confirmed
+    }
+    
+    state Computation_and_Export {
+        Reviewed --> Computing: Tax Engine
+        Computing --> Computed: Slabs & 87A
+        Computed --> GeneratingReport: PDF / DOCX
+        GeneratingReport --> ReportGenerated: CA Report Ready
+        ReportGenerated --> [*]: Download
+    }

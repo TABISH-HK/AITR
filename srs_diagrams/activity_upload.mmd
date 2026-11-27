@@ -1,0 +1,18 @@
+flowchart LR
+    Start([Start: Taxpayer Opens Portal]) --> Sess[Initialize Session]
+    Sess --> SelectFile[Select PDF/DOCX Document]
+    SelectFile --> UploadReq[Upload File via POST /api/upload]
+    UploadReq --> ValidateFmt{Valid File Type & Size?}
+    ValidateFmt -- No --> ErrFmt[Reject File: Show Error] --> EndFail([End])
+    ValidateFmt -- Yes --> CheckText{Has Selectable Text?}
+    CheckText -- No --> ErrScanned[Reject: Scanned Image] --> EndFail
+    CheckText -- Yes --> SaveDoc[Save Document to DB]
+    SaveDoc --> Extract[Regex Primary + NVIDIA NIM Fallback]
+    Extract --> DetectForm[Classify Form: ITR-1, 2, 4]
+    DetectForm --> SaveExt[Store Extracted JSON]
+    SaveExt --> ReviewUI[Display Review Screen]
+    ReviewUI --> UserEdit{User modifies fields?}
+    UserEdit -- Yes --> UpdateJSON[Update reviewed_json]
+    UserEdit -- No --> SelectAY[Confirm AY 2025-26 / 2026-27]
+    UpdateJSON --> SelectAY
+    SelectAY --> EndOk([Proceed to Tax Calculation])

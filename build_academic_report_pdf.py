@@ -1,12 +1,10 @@
 """
-Compile Comprehensive Academic Project Report (Chapters 1 to 6) into PDF using ReportLab.
-Conforming strictly to the structure provided:
-- Chapter 1: INTRODUCTION (Literature Survey, Domain Profile, Shortcomings, Realization, Broad Outline)
-- Chapter 2: PROBLEM FORMULATION (Definition, Aspects, Critical View, Technical Novelty, Proposed Method)
-- Chapter 3: SYSTEM ANALYSIS AND DESIGN (Requirements, Operating Env, System Architecture, UML/DFD/ER Diagrams, Traceability, Risks)
-- Chapter 4: SYSTEM IMPLEMENTATION (Hardware/Software Reqs, Project Structure Tree, Operation Manual with ALL Screenshots, Main APIs)
-- Chapter 5: RESULT AND DISCUSSION (Interpretation, Risk/Regime Analysis, Implemented Rules, Test Scenarios TC-01 to TC-12, Comparison)
-- Chapter 6: CONCLUSION (Advantages, Limitations, Future Scope, References)
+Generate Comprehensive 30-32 Page Academic Project Report PDF with ReportLab.
+Features:
+- Department of Computer Science, AMU Formatting
+- All 13 Figures (Screenshots & Diagrams) strictly CENTERED (hAlign='CENTER')
+- Chapters 1 to 6 with exhaustive statutory and technical sections
+- Target page count: ~30-32 pages with clean page breaks
 """
 import os
 import sys
@@ -55,7 +53,7 @@ class AcademicNumberedCanvas(canvas.Canvas):
         self.restoreState()
 
 
-def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str):
+def build_academic_30p_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str):
     doc = SimpleDocTemplate(
         pdf_path,
         pagesize=letter,
@@ -67,7 +65,6 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
 
     styles = getSampleStyleSheet()
 
-    # Formatting Styles conforming to sample project file
     cover_univ = ParagraphStyle(
         'CoverUniv',
         parent=styles['Normal'],
@@ -94,12 +91,12 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
         'ChapHeading',
         parent=styles['Heading1'],
         fontName='Times-Bold',
-        fontSize=15,
-        leading=19,
-        alignment=1, # Center like sample "Chapter 1: INTRODUCTION"
+        fontSize=14.5,
+        leading=18.5,
+        alignment=1, # Centered chapter title like academic thesis
         textColor=colors.black,
-        spaceBefore=16,
-        spaceAfter=14,
+        spaceBefore=14,
+        spaceAfter=12,
         keepWithNext=True
     )
 
@@ -107,11 +104,11 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
         'SecHeading',
         parent=styles['Heading2'],
         fontName='Times-Bold',
-        fontSize=12,
-        leading=16,
+        fontSize=11.5,
+        leading=15.5,
         textColor=colors.black,
-        spaceBefore=12,
-        spaceAfter=6,
+        spaceBefore=11,
+        spaceAfter=5,
         keepWithNext=True
     )
 
@@ -119,11 +116,11 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
         'SubSecHeading',
         parent=styles['Heading3'],
         fontName='Times-Bold',
-        fontSize=10.5,
-        leading=14,
+        fontSize=10,
+        leading=13.5,
         textColor=colors.HexColor('#1e293b'),
         spaceBefore=8,
-        spaceAfter=4,
+        spaceAfter=3,
         keepWithNext=True
     )
 
@@ -131,18 +128,18 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
         'AcademicBody',
         parent=styles['BodyText'],
         fontName='Times-Roman',
-        fontSize=10,
-        leading=14.5,
+        fontSize=9.5,
+        leading=13.8,
         textColor=colors.black,
         alignment=4, # Justified
-        spaceAfter=6
+        spaceAfter=5.5
     )
 
     bullet = ParagraphStyle(
         'AcademicBullet',
         parent=body,
-        leftIndent=16,
-        bulletIndent=6,
+        leftIndent=15,
+        bulletIndent=5,
         spaceAfter=3,
         alignment=4
     )
@@ -151,20 +148,20 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
         'FigCaption',
         parent=styles['Normal'],
         fontName='Times-Italic',
-        fontSize=9,
-        leading=12,
-        alignment=1,
+        fontSize=8.5,
+        leading=11.5,
+        alignment=1, # STRICTLY CENTERED CAPTION
         textColor=colors.HexColor('#334155'),
         spaceBefore=4,
-        spaceAfter=10
+        spaceAfter=9
     )
 
     th = ParagraphStyle(
         'TH',
         parent=styles['Normal'],
         fontName='Times-Bold',
-        fontSize=8.5,
-        leading=11,
+        fontSize=8,
+        leading=10.5,
         textColor=colors.black
     )
 
@@ -172,26 +169,29 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
         'TC',
         parent=styles['Normal'],
         fontName='Times-Roman',
-        fontSize=8,
-        leading=11,
+        fontSize=7.8,
+        leading=10.2,
         textColor=colors.black
     )
+
+    def centered_img(img_path, w, h):
+        return Image(img_path, width=w, height=h, hAlign='CENTER')
 
     story = []
 
     # ──────────────────────────────────────────────────────────────────────────
-    # COVER & CERTIFICATE
+    # PAGE 1: COVER PAGE
     # ──────────────────────────────────────────────────────────────────────────
-    story.append(Spacer(1, 40))
+    story.append(Spacer(1, 35))
     story.append(Paragraph("DEPARTMENT OF COMPUTER SCIENCE", cover_univ))
     story.append(Paragraph("ALIGARH MUSLIM UNIVERSITY, ALIGARH (U.P.), INDIA", ParagraphStyle('CoverSub', parent=styles['Normal'], fontName='Times-Roman', fontSize=11, leading=15, alignment=1, textColor=colors.HexColor('#334155'))))
-    story.append(Spacer(1, 40))
+    story.append(Spacer(1, 35))
 
     story.append(HRFlowable(width="75%", thickness=2, color=colors.HexColor('#1e3a8a'), spaceAfter=18, spaceBefore=0))
     story.append(Paragraph("PROJECT REPORT", ParagraphStyle('CoverBadge', parent=styles['Normal'], fontName='Times-Bold', fontSize=12, leading=16, alignment=1, textColor=colors.HexColor('#0369a1'), spaceAfter=8)))
     story.append(Paragraph("AI-DRIVEN INCOME TAX RETURN (ITR)<br/>COMPUTATION SYSTEM (AITR)", cover_title))
     story.append(Paragraph("A Full-Stack Intelligent Assessment System with Deterministic Multi-Regime Computation & Semantic LLM Extraction", ParagraphStyle('CoverDesc', parent=styles['Normal'], fontName='Times-Roman', fontSize=10.5, leading=14, alignment=1, textColor=colors.HexColor('#475569'))))
-    story.append(HRFlowable(width="75%", thickness=1, color=colors.HexColor('#94a3b8'), spaceAfter=35, spaceBefore=0))
+    story.append(HRFlowable(width="75%", thickness=1, color=colors.HexColor('#94a3b8'), spaceAfter=30, spaceBefore=0))
 
     meta = [
         [Paragraph("<b>Degree Program:</b>", tc), Paragraph("Master of Computer Applications (MCA)", tc)],
@@ -207,8 +207,8 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
     t_cover.setStyle(TableStyle([
         ('BOX', (0,0), (-1,-1), 1, colors.HexColor('#94a3b8')),
         ('INNERGRID', (0,0), (-1,-1), 0.5, colors.HexColor('#cbd5e1')),
-        ('TOPPADDING', (0,0), (-1,-1), 5),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 5),
+        ('TOPPADDING', (0,0), (-1,-1), 4.5),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 4.5),
         ('LEFTPADDING', (0,0), (-1,-1), 10),
         ('RIGHTPADDING', (0,0), (-1,-1), 10),
         ('BACKGROUND', (0,0), (-1,-1), colors.HexColor('#f8fafc')),
@@ -217,11 +217,104 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
     story.append(PageBreak())
 
     # ──────────────────────────────────────────────────────────────────────────
-    # CHAPTER 1: INTRODUCTION
+    # PAGE 2: CERTIFICATE OF AUTHENTICITY
+    # ──────────────────────────────────────────────────────────────────────────
+    story.append(Paragraph("Certificate of Authenticity", chap_heading))
+    story.append(Spacer(1, 15))
+    story.append(Paragraph(
+        "This is to certify that the project entitled <b>\"AI-Driven Income Tax Return (ITR) Computation System (AITR)\"</b> "
+        "is a bonafide record of work carried out by <b>Tabish Hasan (Roll / Enrolment No: 25CAMSA156)</b> in partial fulfillment of the requirements "
+        "for the degree of <b>Master of Computer Applications (MCA)</b> at the <b>Department of Computer Science, Aligarh Muslim University, Aligarh</b> "
+        "during the academic session 2026–2027.",
+        body
+    ))
+    story.append(Spacer(1, 10))
+    story.append(Paragraph(
+        "The project demonstrates sound software engineering principles, incorporating modern API design, reactive WebGL user interfaces, "
+        "large language model semantic parsing, and strict deterministic adherence to the statutory provisions of the Indian Income Tax Act, 1961.",
+        body
+    ))
+    story.append(Spacer(1, 10))
+    story.append(Paragraph(
+        "The results embodied in this report have been verified and tested on actual sample ITR acknowledgment documents and have not been submitted elsewhere "
+        "for the award of any other degree or diploma.",
+        body
+    ))
+    story.append(Spacer(1, 60))
+
+    sig_table = Table([
+        [Paragraph("______________________________<br/><b>Tabish Hasan</b><br/>Candidate (25CAMSA156)<br/>MCA, Aligarh Muslim University", body),
+         Paragraph("______________________________<br/><b>Project Supervisor / Faculty Mentor</b><br/>Department of Computer Science<br/>Aligarh Muslim University", body)]
+    ], colWidths=[230, 230])
+    sig_table.setStyle(TableStyle([
+        ('TOPPADDING', (0,0), (-1,-1), 10),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 10),
+    ]))
+    story.append(sig_table)
+    story.append(PageBreak())
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 3: ACKNOWLEDGEMENT & EXECUTIVE SUMMARY
+    # ──────────────────────────────────────────────────────────────────────────
+    story.append(Paragraph("Acknowledgement", chap_heading))
+    story.append(Paragraph(
+        "I express my deep gratitude to the faculty and mentors of the <b>Department of Computer Science, Aligarh Muslim University (AMU)</b> "
+        "for their continuous encouragement, guidance, and constructive evaluation throughout the tenure of this MCA Mini Project. "
+        "Their academic rigor and valuable insights enabled me to bridge direct tax legislation with state-of-the-art software systems.",
+        body
+    ))
+    story.append(Paragraph(
+        "I also extend my sincere appreciation to the open-source software engineering community behind FastAPI, React, Three.js, ReportLab, and "
+        "the NVIDIA Inference Microservices (NIM) ecosystem, whose powerful tools made this full-stack implementation possible.",
+        body
+    ))
+    story.append(Spacer(1, 15))
+    story.append(Paragraph("Executive Summary", sec_heading))
+    story.append(Paragraph(
+        "The <b>AI-Driven Income Tax Return (ITR) Computation System (AITR)</b> addresses a critical challenge in modern Indian financial management: "
+        "the time-consuming, error-prone manual processing of tax documents amidst evolving dual-regime taxation (Old vs. Section 115BAC New Regime). "
+        "By fusing <b>hybrid semantic AI extraction (NVIDIA NIM LLM + rule-based regex fallback)</b> with a <b>100% deterministic calculation engine</b>, "
+        "AITR achieves zero mathematical hallucination while automating the parsing of complex ITR-1 (Sahaj), ITR-2 (Capital Gains & Crypto u/s 115BBH), "
+        "and ITR-4 (Sugam Presumptive) documents for Assessment Years 2025-26 and 2026-27.",
+        body
+    ))
+    story.append(Paragraph(
+        "The system provides an intuitive Three.js WebGL interface, an interactive human-in-the-loop review portal, automatic regime optimization, "
+        "and one-click compilation of professional Chartered Accountant-format Statement of Total Income audit reports in both PDF and Word DOCX formats.",
+        body
+    ))
+    story.append(PageBreak())
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 4: TABLE OF CONTENTS
+    # ──────────────────────────────────────────────────────────────────────────
+    story.append(Paragraph("TABLE OF CONTENTS", chap_heading))
+    toc_data = [
+        [Paragraph("<b>Chapter / Section</b>", th), Paragraph("<b>Title / Subject Description</b>", th), Paragraph("<b>Page</b>", th)],
+        [Paragraph("<b>Chapter 1</b>", tc), Paragraph("<b>INTRODUCTION</b><br/>1.1 Literature Survey (Chronological related work & domain profile)<br/>1.2 Present State of the Art & Its Shortcomings<br/>1.3 Realization of the Problem<br/>1.4 Introduction of Work to Be Taken Up<br/>1.5 Broad Outline of the Work (Chapter-wise)", tc), Paragraph("5<br/>5<br/>7<br/>8<br/>8<br/>8", tc)],
+        [Paragraph("<b>Chapter 2</b>", tc), Paragraph("<b>PROBLEM FORMULATION</b><br/>2.1 Problem Definition<br/>2.2 Various Aspects of the Problem (Table 2)<br/>2.3 Present System: Critical View<br/>2.4 Scientific/Technical Novelty & Need of the Work<br/>2.5 Proposed System / Method of Solution", tc), Paragraph("9<br/>9<br/>9<br/>10<br/>10<br/>10", tc)],
+        [Paragraph("<b>Chapter 3</b>", tc), Paragraph("<b>SYSTEM ANALYSIS AND DESIGN</b><br/>3.1 Requirements Specification (User classes, operating env, constraints)<br/>3.2 Functional & Non-Functional Requirements (Table 3, 4, 5)<br/>3.3 Data & Interface Requirements (Table 6)<br/>3.4 Information Collection & Rationale (Table 7)<br/>3.5 System Architecture & Object-Oriented Class Hierarchy (Figure 3.1)<br/>3.6 Classical Chen's Entity-Relationship (ER) Diagram (Figure 3.2)<br/>3.7 Use Case Diagram & Main Use Case Descriptions (Figure 3.3, Table 8)<br/>3.8 Activity Diagrams (Ingestion & Tax Calculation: Figures 3.4, 3.5)<br/>3.9 Data Flow Diagrams (Level 0 and Level 1: Figures 3.6, 3.7)<br/>3.10 Sequence Diagram: End-to-End Workflow (Figure 3.8)<br/>3.11 System Modules Breakdown (Table 9)<br/>3.12 System Development Tools & Tech Stack Justification<br/>3.13 Traceability & Acceptance Criteria (Table 10)<br/>3.14 Project Risks and Mitigation Strategies (Table 11)", tc), Paragraph("11<br/>11<br/>12<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>22<br/>23<br/>23", tc)],
+        [Paragraph("<b>Chapter 4</b>", tc), Paragraph("<b>SYSTEM IMPLEMENTATION</b><br/>4.1 Hardware & Software Requirements (Tables 12, 13)<br/>4.2 Project Codebase Structure & Directory Tree (Figure 4.1)<br/>4.3 Operation Manual with Complete UI Screenshots:<br/>&nbsp;&nbsp;&nbsp;&nbsp;4.3.1 Taxpayer Session Portal (Figure 4.2)<br/>&nbsp;&nbsp;&nbsp;&nbsp;4.3.2 Document Ingestion & WebGL Shader Screen (Figure 4.3)<br/>&nbsp;&nbsp;&nbsp;&nbsp;4.3.3 Dual-Regime Tax Computation Results Screen (Figure 4.4)<br/>&nbsp;&nbsp;&nbsp;&nbsp;4.3.4 Chartered Accountant (CA) Audit Note PDF Export (Figure 4.5)<br/>4.4 Principal Backend REST API Endpoints (Table 14)<br/>4.5 Output Reports Description", tc), Paragraph("24<br/>24<br/>25<br/>26<br/>26<br/>26<br/>27<br/>27<br/>28<br/>28", tc)],
+        [Paragraph("<b>Chapter 5</b>", tc), Paragraph("<b>RESULT AND DISCUSSION</b><br/>5.1 Interpretation of Results & Statutory Slab Matrix (Table 15)<br/>5.2 Implemented Tax Validation & Calculation Rules (Table 16)<br/>5.3 Functional Test Scenarios & Execution Evidence (TC-01 to TC-12: Table 17)<br/>5.4 Comparison with the Existing System (Table 18)<br/>5.5 Practical Application Areas and Deployment Scope", tc), Paragraph("29<br/>29<br/>30<br/>30<br/>31<br/>31", tc)],
+        [Paragraph("<b>Chapter 6</b>", tc), Paragraph("<b>CONCLUSION</b><br/>6.1 Advantages & Special Features of the System<br/>6.2 System Limitations<br/>6.3 Future Extensions & Roadmap<br/>6.4 Final Remarks<br/><b>REFERENCES</b>", tc), Paragraph("32<br/>32<br/>32<br/>32<br/>32<br/>32", tc)],
+    ]
+    t_toc = Table(toc_data, colWidths=[65, 345, 40])
+    t_toc.setStyle(TableStyle([
+        ('BOX', (0,0), (-1,-1), 1, colors.black),
+        ('INNERGRID', (0,0), (-1,-1), 0.5, colors.HexColor('#cbd5e1')),
+        ('TOPPADDING', (0,0), (-1,-1), 4),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+        ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
+    ]))
+    story.append(t_toc)
+    story.append(PageBreak())
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 5: CHAPTER 1: INTRODUCTION
     # ──────────────────────────────────────────────────────────────────────────
     story.append(Paragraph("Chapter 1: INTRODUCTION", chap_heading))
     story.append(Paragraph(
-        "Income Tax Returns (ITR) in India contain vital statutory financial information including Permanent Account Number (PAN), "
+        "Income Tax Returns (ITR) in India contain critical statutory financial information such as Permanent Account Number (PAN), "
         "Aadhaar identifier, Gross Salary, Chapter VI-A deductions (under Sections 80C, 80D, 80TTA), capital gains from equities and "
         "Virtual Digital Assets (VDA / cryptocurrency u/s 115BBH), presumptive business turnover u/s 44AD/44ADA, and Tax Deducted at Source (TDS). "
         "Manual verification of diverse financial acknowledgements, salary certificates (Form 16), and capital gains statements is "
@@ -240,32 +333,39 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
         "generative arithmetic.",
         body
     ))
-
     story.append(Paragraph("1.1 Literature Survey", sec_heading))
     story.append(Paragraph("<b>a) Previous related work (chronological)</b>", subsec_heading))
-    
+    story.append(Paragraph(
+        "Taxation computational tools have evolved substantially over past decades, shifting from manual spreadsheet templates to automated rule engines "
+        "and contemporary neural language models. Table 1 outlines the historical progression and technological milestones foundational to AITR:",
+        body
+    ))
+    story.append(PageBreak())
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 6: LITERATURE SURVEY TABLE 1
+    # ──────────────────────────────────────────────────────────────────────────
     t1_data = [
         [Paragraph("Year", th), Paragraph("Work / Technology", th), Paragraph("Relevance to Project", th)],
         [Paragraph("1961", tc), Paragraph("Income Tax Act, 1961 (Govt. of India)", tc), Paragraph("The primary statutory legislation governing direct taxation, taxable heads, exemptions, and tax computation.", tc)],
-        [Paragraph("2020", tc), Paragraph("Finance Act 2020: Introduction of Section 115BAC", tc), Paragraph("Introduced the concessional New Tax Regime with revised tax slabs and forfeiture of specified deductions.", tc)],
+        [Paragraph("2020", tc), Paragraph("Finance Act 2020: Section 115BAC", tc), Paragraph("Introduced concessional New Tax Regime with revised tax slabs and forfeiture of specified deductions.", tc)],
         [Paragraph("2022", tc), Paragraph("Finance Act 2022: Virtual Digital Assets (Sec 115BBH)", tc), Paragraph("Defined 30% flat taxation on crypto/NFT capital gains without deduction of expenses, verified by AITR.", tc)],
-        [Paragraph("2023", tc), Paragraph("Finance Act 2023: Default Status of New Tax Regime", tc), Paragraph("Made Section 115BAC the default tax regime and enhanced Section 87A rebate to ₹25,000 for income up to ₹7,00,000.", tc)],
+        [Paragraph("2023", tc), Paragraph("Finance Act 2023: Default Status of New Tax Regime", tc), Paragraph("Made Section 115BAC default tax regime and enhanced Section 87A rebate to ₹25,000 for income up to ₹7,00,000.", tc)],
         [Paragraph("2024", tc), Paragraph("Union Budget 2024: Revision for AY 2025-26", tc), Paragraph("Increased Standard Deduction from ₹50,000 to ₹75,000 under New Regime and restructured tax slabs.", tc)],
-        [Paragraph("2024 onwards", tc), Paragraph("NVIDIA NIM (Inference Microservices) & Nemotron Models", tc), Paragraph("Provides optimized, high-throughput LLM reasoning microservices for structured JSON financial extraction.", tc)],
-        [Paragraph("Ongoing", tc), Paragraph("Deterministic rule engines in financial tax software", tc), Paragraph("Ensures zero mathematical hallucination by delegating all arithmetic computation to deterministic code.", tc)],
+        [Paragraph("2024+", tc), Paragraph("NVIDIA NIM & Nemotron Reasoning Models", tc), Paragraph("Provides optimized, high-throughput LLM reasoning microservices for structured JSON financial extraction.", tc)],
+        [Paragraph("Ongoing", tc), Paragraph("Deterministic rule engines in tax software", tc), Paragraph("Ensures zero mathematical hallucination by delegating all arithmetic computation to deterministic code.", tc)],
     ]
     t1 = Table(t1_data, colWidths=[55, 155, 250])
     t1.setStyle(TableStyle([
         ('BOX', (0,0), (-1,-1), 1, colors.black),
         ('INNERGRID', (0,0), (-1,-1), 0.5, colors.black),
-        ('TOPPADDING', (0,0), (-1,-1), 4),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+        ('TOPPADDING', (0,0), (-1,-1), 5),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 5),
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
     ]))
     story.append(Paragraph("<b>Table 1: Previous related work and its statutory/technological relevance</b>", caption))
     story.append(t1)
-    story.append(Spacer(1, 8))
-
+    story.append(Spacer(1, 10))
     story.append(Paragraph("<b>b) Organisation / domain profile</b>", subsec_heading))
     story.append(Paragraph(
         "Direct taxation in India is administered by the Central Board of Direct Taxes (CBDT) under the Department of Revenue, Ministry of Finance. "
@@ -276,13 +376,19 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
         "exceptionally well-suited to deterministic, rule-based algorithmic verification.",
         body
     ))
+    story.append(PageBreak())
 
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 7: PRESENT SHORTCOMINGS
+    # ──────────────────────────────────────────────────────────────────────────
     story.append(Paragraph("1.2 Present State of the Art and Its Shortcomings", sec_heading))
     story.append(Paragraph("• <b>Manual Data Transcription:</b> Taxpayers manually re-type values from Form 16, bank interest certificates, and brokerage summaries into return filing sheets, creating high human error rates.", bullet))
     story.append(Paragraph("• <b>LLM Hallucination Risks:</b> Generic conversational AI systems (e.g. ChatGPT, Claude) frequently hallucinate arithmetic calculations, misapply Section 87A rebate boundaries, or apply wrong slab rates.", bullet))
     story.append(Paragraph("• <b>Spreadsheet Complexity:</b> Spreadsheet-based tax templates are fragile, lack input validation, fail to handle complex VDA crypto gains u/s 115BBH, and do not provide automated regime recommendations.", bullet))
     story.append(Paragraph("• <b>Opaque Accounting Software:</b> Commercial tax utilities often obscure the step-by-step intermediate calculations, preventing taxpayers from understanding why a specific regime is recommended.", bullet))
     story.append(Paragraph("• <b>Lack of Unified Ingestion:</b> Existing utilities rarely support drag-and-drop parsing of raw ITR acknowledgements, requiring users to pre-process documents into proprietary formats.", bullet))
+    story.append(Paragraph("• <b>Absence of Dual-Export Notes:</b> Few solutions produce both client-ready non-editable vector PDFs and editable Microsoft Word documents for accountants who must attach explanatory notes.", bullet))
+    story.append(Spacer(1, 10))
 
     story.append(Paragraph("1.3 Realization of the Problem", sec_heading))
     story.append(Paragraph(
@@ -291,7 +397,11 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
         "explainable regime recommendations alongside professional Chartered Accountant-format audit documentation.",
         body
     ))
+    story.append(PageBreak())
 
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 8: OUTLINE & SCOPE
+    # ──────────────────────────────────────────────────────────────────────────
     story.append(Paragraph("1.4 Introduction of the Work to Be Taken Up", sec_heading))
     story.append(Paragraph(
         "The proposed work consists of a Python FastAPI backend with SQLite persistence, document ingestion (pdfplumber and python-docx), hybrid extraction "
@@ -299,7 +409,7 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
         "and a reactive Single Page Application delivered through React 18, Tailwind CSS, and a Three.js WebGL shader background.",
         body
     ))
-
+    story.append(Spacer(1, 8))
     story.append(Paragraph("1.5 Broad Outline of the Work (Chapter-wise)", sec_heading))
     story.append(Paragraph("• <b>Chapter 1:</b> Introduction, literature survey, domain profile, present shortcomings, problem realization, and project outline.", bullet))
     story.append(Paragraph("• <b>Chapter 2:</b> Problem formulation, aspects, critical view, scientific novelty, and proposed methodology.", bullet))
@@ -307,11 +417,10 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
     story.append(Paragraph("• <b>Chapter 4:</b> System implementation, project structure, operation manual with complete UI screenshots, and API specifications.", bullet))
     story.append(Paragraph("• <b>Chapter 5:</b> Results and discussion, risk/regime classification, test scenarios TC-01 to TC-12, and comparative analysis.", bullet))
     story.append(Paragraph("• <b>Chapter 6:</b> Conclusion, advantages, system limitations, future scope, and statutory references.", bullet))
-
     story.append(PageBreak())
 
     # ──────────────────────────────────────────────────────────────────────────
-    # CHAPTER 2: PROBLEM FORMULATION
+    # PAGE 9: CHAPTER 2: PROBLEM FORMULATION
     # ──────────────────────────────────────────────────────────────────────────
     story.append(Paragraph("Chapter 2: PROBLEM FORMULATION", chap_heading))
     story.append(Paragraph("2.1 Problem Definition", sec_heading))
@@ -321,7 +430,7 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
         "Section 115BAC New Tax Regimes across Assessment Years 2025-26 and 2026-27, determines optimal tax recommendations, and exports audit-ready CA reports.",
         body
     ))
-
+    story.append(Spacer(1, 6))
     story.append(Paragraph("2.2 Various Aspects of the Problem", sec_heading))
     t2_data = [
         [Paragraph("Aspect", th), Paragraph("Description", th)],
@@ -343,8 +452,11 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
     ]))
     story.append(Paragraph("<b>Table 2: Aspects of the tax computation problem</b>", caption))
     story.append(t2)
-    story.append(Spacer(1, 8))
+    story.append(PageBreak())
 
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 10: METHOD OF SOLUTION
+    # ──────────────────────────────────────────────────────────────────────────
     story.append(Paragraph("2.3 Present System: Critical View", sec_heading))
     story.append(Paragraph(
         "Current compliance workflows in accounting firms rely on manual examination of PDF acknowledgements, followed by transcription into spreadsheets. "
@@ -353,7 +465,6 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
         "AITR automates data extraction while preserving the exact algorithmic reasoning required for professional tax audits.",
         body
     ))
-
     story.append(Paragraph("2.4 Scientific/Technical Novelty and Need of the Work", sec_heading))
     story.append(Paragraph("• <b>Zero Arithmetic Hallucination:</b> Combines LLM semantic intelligence for text parsing with 100% deterministic Python calculation algorithms.", bullet))
     story.append(Paragraph("• <b>Dynamic Multi-AY Configuration:</b> Seamlessly reconfigures tax slabs and rebate rules between AY 2025-26 and AY 2026-27.", bullet))
@@ -368,11 +479,10 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
     story.append(Paragraph("• <b>Interactive Verification:</b> Review screen allows taxpayers to verify extracted salary, deductions, and capital gains.", bullet))
     story.append(Paragraph("• <b>Deterministic Engine:</b> Executes statutory slabs under Section 115BAC and Old Regime, applying 87A rebate and 4% cess.", bullet))
     story.append(Paragraph("• <b>Report Compilation:</b> Compiles CA-format Statement of Total Income ready for client delivery and filing records.", bullet))
-
     story.append(PageBreak())
 
     # ──────────────────────────────────────────────────────────────────────────
-    # CHAPTER 3: SYSTEM ANALYSIS AND DESIGN
+    # PAGE 11: CHAPTER 3: SYSTEM ANALYSIS AND DESIGN
     # ──────────────────────────────────────────────────────────────────────────
     story.append(Paragraph("Chapter 3: SYSTEM ANALYSIS AND DESIGN", chap_heading))
     story.append(Paragraph("3.1 Requirement Specification", sec_heading))
@@ -381,125 +491,406 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
         "(FR-001 through FR-010 and NFR-01 through NFR-08) for end-to-end traceability against implementation modules and test cases.",
         body
     ))
-
-    t_fr_data = [
-        [Paragraph("ID", th), Paragraph("Requirement", th), Paragraph("Description", th), Paragraph("Priority", th), Paragraph("Depends on", th)],
-        [Paragraph("FR-001", tc), Paragraph("Taxpayer Session Portal", tc), Paragraph("Establish isolated session ID storing taxpayer name and PAN in local session.", tc), Paragraph("High", tc), Paragraph("SessionModel", tc)],
-        [Paragraph("FR-002", tc), Paragraph("Document Upload & Validation", tc), Paragraph("Ingest PDF/DOCX files up to 10MB; reject scanned images without selectable text.", tc), Paragraph("High", tc), Paragraph("FR-001, Parsers", tc)],
-        [Paragraph("FR-003", tc), Paragraph("Hybrid Entity Extraction", tc), Paragraph("Extract PAN, Aadhaar, AY, salary, deductions, VDA gains, and TDS via Regex+LLM.", tc), Paragraph("High", tc), Paragraph("FR-002, NIM API", tc)],
-        [Paragraph("FR-004", tc), Paragraph("Interactive Data Review", tc), Paragraph("Present extracted values for user validation and manual field modification.", tc), Paragraph("High", tc), Paragraph("FR-003", tc)],
-        [Paragraph("FR-005", tc), Paragraph("Multi-AY Slab Configuration", tc), Paragraph("Support dynamic slab and standard deduction switching (AY 25-26 & 26-27).", tc), Paragraph("High", tc), Paragraph("config.py", tc)],
-        [Paragraph("FR-006", tc), Paragraph("Deterministic Tax Engine", tc), Paragraph("Compute Old and New Regime liabilities with Section 87A rebate and 4% cess.", tc), Paragraph("High", tc), Paragraph("FR-004, FR-005", tc)],
-        [Paragraph("FR-007", tc), Paragraph("Special Rates & Presumptive", tc), Paragraph("Apply 30% flat tax on VDA (115BBH) and 6%/8%/50% profit u/s 44AD/44ADA.", tc), Paragraph("High", tc), Paragraph("FR-006", tc)],
-        [Paragraph("FR-008", tc), Paragraph("Statutory Rounding", tc), Paragraph("Enforce Section 288A (nearest ₹10) and Section 288B (nearest rupee) rounding.", tc), Paragraph("High", tc), Paragraph("FR-006", tc)],
-        [Paragraph("FR-009", tc), Paragraph("CA Report Generation", tc), Paragraph("Generate formal CA Statement of Total Income in PDF and DOCX formats.", tc), Paragraph("High", tc), Paragraph("FR-006, ReportLab", tc)],
-        [Paragraph("FR-010", tc), Paragraph("Session History & Retrieval", tc), Paragraph("Persist and display session history of past uploads, computations, and downloads.", tc), Paragraph("Medium", tc), Paragraph("FR-001, DB", tc)],
-    ]
-    t_fr = Table(t_fr_data, colWidths=[40, 110, 190, 45, 75])
-    t_fr.setStyle(TableStyle([
-        ('BOX', (0,0), (-1,-1), 1, colors.black),
-        ('INNERGRID', (0,0), (-1,-1), 0.5, colors.black),
-        ('TOPPADDING', (0,0), (-1,-1), 3),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
-        ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
-    ]))
-    story.append(Paragraph("<b>Table 3: Functional Requirements of AITR</b>", caption))
-    story.append(t_fr)
-    story.append(Spacer(1, 8))
-
-    story.append(Paragraph("3.2 Operating Environment", sec_heading))
-    story.append(Paragraph("• <b>Server:</b> Python 3.10+ execution environment with FastAPI, Uvicorn, and SQLite3 in WAL mode.", bullet))
-    story.append(Paragraph("• <b>Client:</b> Google Chrome, Mozilla Firefox, Microsoft Edge, or Safari with WebGL 2.0 and ECMAScript 2020+ support.", bullet))
-    story.append(Paragraph("• <b>Development Stack:</b> Windows 11, VS Code, Node.js 20 with Vite, Git/GitHub, and Python virtual environment.", bullet))
-    story.append(Paragraph("• <b>Cloud Deployment:</b> Vercel Serverless environment with dynamic `/tmp` storage bindings for temporary databases and uploads.", bullet))
-
-    story.append(Paragraph("3.3 System Architecture & Design Diagrams", sec_heading))
+    story.append(Paragraph("3.1.1 Purpose & Intended Audience", subsec_heading))
     story.append(Paragraph(
-        "The architecture adheres to clean separation of concerns across presentation, routing, validation, and computational engines.",
+        "The purpose is to specify expected behavior, API interfaces, mathematical rules, and quality attributes. Intended audience includes "
+        "project supervisors, academic evaluators, software developers, and Chartered Accountants.",
         body
     ))
-
-    # Architecture Diagram
-    arch_img = os.path.join(diagrams_dir, "class_diag.png")
-    if os.path.exists(arch_img):
-        story.append(Image(arch_img, width=460, height=270))
-        story.append(Paragraph("Figure 3.1: Object-Oriented Backend Architecture and Engine Inheritance Hierarchy", caption))
-
+    story.append(Paragraph("3.1.2 Product Perspective & Functions", subsec_heading))
+    story.append(Paragraph(
+        "AITR is a web-based financial intelligence application operating on structured and semi-structured ITR data. "
+        "Key functions include session-isolated document upload, text extraction, data validation, dual-regime tax computation, and report compilation.",
+        body
+    ))
+    story.append(Paragraph("3.1.5 User Classes and Characteristics", subsec_heading))
+    t_uc = Table([
+        [Paragraph("User Class", th), Paragraph("Description & Responsibilities", th), Paragraph("Technical Skill", th)],
+        [Paragraph("Individual Taxpayer", tc), Paragraph("Uploads Form 16/ITR, reviews extracted income heads, verifies deductions, and views optimal regime.", tc), Paragraph("Basic / Non-technical", tc)],
+        [Paragraph("Chartered Accountant (CA)", tc), Paragraph("Inspects intermediate tax calculations, adjusts capital gains/crypto heads, and exports audit reports.", tc), Paragraph("Moderate / Professional", tc)],
+        [Paragraph("System Evaluator", tc), Paragraph("Reviews test suites, verifies mathematical formulas, checks logs, and evaluates source code.", tc), Paragraph("High / Engineering", tc)],
+    ], colWidths=[110, 260, 90])
+    t_uc.setStyle(TableStyle([
+        ('BOX', (0,0), (-1,-1), 1, colors.black),
+        ('INNERGRID', (0,0), (-1,-1), 0.5, colors.black),
+        ('TOPPADDING', (0,0), (-1,-1), 4),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+        ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
+    ]))
+    story.append(Paragraph("<b>Table 3: User classes and characteristics</b>", caption))
+    story.append(t_uc)
     story.append(PageBreak())
 
-    # Classical Chen ER Diagram
-    story.append(Paragraph("3.4 Entity-Relationship Modeling (Classical Chen's Notation)", sec_heading))
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 12: FUNCTIONAL REQUIREMENTS PART 1
+    # ──────────────────────────────────────────────────────────────────────────
+    story.append(Paragraph("3.1.6 Operating Environment, Constraints, Assumptions", sec_heading))
+    story.append(Paragraph("• <b>Operating Environment:</b> Python 3.10+ FastAPI server, modern web browser (Chrome, Edge, Firefox), SQLite3 database.", bullet))
+    story.append(Paragraph("• <b>Implementation Constraints:</b> Maximum upload limit of 10MB per document; scanned paper without selectable text is rejected.", bullet))
+    story.append(Paragraph("• <b>Assumptions:</b> Taxpayers provide authentic ITR documents; internet connectivity is present for NVIDIA NIM inference.", bullet))
+    story.append(Spacer(1, 6))
+
+    story.append(Paragraph("3.1.9 Functional Requirements (Part 1)", sec_heading))
+    t_fr1 = [
+        [Paragraph("ID", th), Paragraph("Requirement", th), Paragraph("Description", th), Paragraph("Priority", th)],
+        [Paragraph("FR-001", tc), Paragraph("Taxpayer Session Portal", tc), Paragraph("Establish isolated session ID storing taxpayer name and PAN in local session.", tc), Paragraph("High", tc)],
+        [Paragraph("FR-002", tc), Paragraph("Document Upload & Validation", tc), Paragraph("Ingest PDF/DOCX files up to 10MB; reject scanned images without selectable text.", tc), Paragraph("High", tc)],
+        [Paragraph("FR-003", tc), Paragraph("Hybrid Entity Extraction", tc), Paragraph("Extract PAN, Aadhaar, AY, salary, deductions, VDA gains, and TDS via Regex+LLM.", tc), Paragraph("High", tc)],
+        [Paragraph("FR-004", tc), Paragraph("Interactive Data Review", tc), Paragraph("Present extracted values for user validation and manual field modification.", tc), Paragraph("High", tc)],
+        [Paragraph("FR-005", tc), Paragraph("Multi-AY Slab Configuration", tc), Paragraph("Support dynamic slab and standard deduction switching (AY 25-26 & 26-27).", tc), Paragraph("High", tc)],
+    ]
+    t_fr_tab1 = Table(t_fr1, colWidths=[45, 130, 235, 50])
+    t_fr_tab1.setStyle(TableStyle([
+        ('BOX', (0,0), (-1,-1), 1, colors.black),
+        ('INNERGRID', (0,0), (-1,-1), 0.5, colors.black),
+        ('TOPPADDING', (0,0), (-1,-1), 5),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 5),
+        ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
+    ]))
+    story.append(Paragraph("<b>Table 4(a): Functional Requirements (FR-001 to FR-005)</b>", caption))
+    story.append(t_fr_tab1)
+    story.append(PageBreak())
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 13: FUNCTIONAL REQUIREMENTS PART 2 & NON-FUNCTIONAL REQUIREMENTS
+    # ──────────────────────────────────────────────────────────────────────────
+    story.append(Paragraph("3.1.9 Functional Requirements (Part 2)", sec_heading))
+    t_fr2 = [
+        [Paragraph("ID", th), Paragraph("Requirement", th), Paragraph("Description", th), Paragraph("Priority", th)],
+        [Paragraph("FR-006", tc), Paragraph("Deterministic Tax Engine", tc), Paragraph("Compute Old and New Regime liabilities with Section 87A rebate and 4% cess.", tc), Paragraph("High", tc)],
+        [Paragraph("FR-007", tc), Paragraph("Special Rates & Presumptive", tc), Paragraph("Apply 30% flat tax on VDA (115BBH) and 6%/8%/50% profit u/s 44AD/44ADA.", tc), Paragraph("High", tc)],
+        [Paragraph("FR-008", tc), Paragraph("Statutory Rounding", tc), Paragraph("Enforce Section 288A (nearest ₹10) and Section 288B (nearest rupee) rounding.", tc), Paragraph("High", tc)],
+        [Paragraph("FR-009", tc), Paragraph("CA Report Generation", tc), Paragraph("Generate formal CA Statement of Total Income in PDF and DOCX formats.", tc), Paragraph("High", tc)],
+        [Paragraph("FR-010", tc), Paragraph("Session History & Retrieval", tc), Paragraph("Persist and display session history of past uploads, computations, and downloads.", tc), Paragraph("Medium", tc)],
+    ]
+    t_fr_tab2 = Table(t_fr2, colWidths=[45, 130, 235, 50])
+    t_fr_tab2.setStyle(TableStyle([
+        ('BOX', (0,0), (-1,-1), 1, colors.black),
+        ('INNERGRID', (0,0), (-1,-1), 0.5, colors.black),
+        ('TOPPADDING', (0,0), (-1,-1), 5),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 5),
+        ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
+    ]))
+    story.append(Paragraph("<b>Table 4(b): Functional Requirements (FR-006 to FR-010)</b>", caption))
+    story.append(t_fr_tab2)
+    story.append(Spacer(1, 8))
+
+    story.append(Paragraph("3.1.10 Non-Functional Requirements", sec_heading))
+    t_nfr = Table([
+        [Paragraph("ID", th), Paragraph("Category", th), Paragraph("Specification", th)],
+        [Paragraph("NFR-01", tc), Paragraph("Performance", tc), Paragraph("Extraction under 2.5s; deterministic tax computation under 50ms; report generation under 1.2s.", tc)],
+        [Paragraph("NFR-02", tc), Paragraph("Accuracy", tc), Paragraph("100% deterministic statutory precision; 0% arithmetic hallucination; exact Section 288A/B rounding.", tc)],
+        [Paragraph("NFR-03", tc), Paragraph("Security", tc), Paragraph("Session isolation via client-side tokens; no permanent storage of unencrypted financial identity data.", tc)],
+        [Paragraph("NFR-04", tc), Paragraph("Reliability", tc), Paragraph("Resilient regex fallback if external LLM API is unavailable; graceful error handling on malformed files.", tc)],
+        [Paragraph("NFR-05", tc), Paragraph("Usability", tc), Paragraph("High contrast accessible UI, Three.js WebGL visual feedback, clear breakdown tables, responsive layout.", tc)],
+        [Paragraph("NFR-06", tc), Paragraph("Maintainability", tc), Paragraph("Decoupled statutory tax configurations in config.py; independent tax engine classes per form.", tc)],
+    ], colWidths=[50, 95, 315])
+    t_nfr.setStyle(TableStyle([
+        ('BOX', (0,0), (-1,-1), 1, colors.black),
+        ('INNERGRID', (0,0), (-1,-1), 0.5, colors.black),
+        ('TOPPADDING', (0,0), (-1,-1), 4),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+        ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
+    ]))
+    story.append(Paragraph("<b>Table 5: Non-Functional Requirements</b>", caption))
+    story.append(t_nfr)
+    story.append(PageBreak())
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 14: DATA & INTERFACE REQUIREMENTS
+    # ──────────────────────────────────────────────────────────────────────────
+    story.append(Paragraph("3.1.11 External Interface Requirements", sec_heading))
+    story.append(Paragraph("• <b>User Interface:</b> React 18 SPA with Tailwind CSS, Lucide icons, and Three.js WebGL GridScan shader background.", bullet))
+    story.append(Paragraph("• <b>Software Interfaces:</b> FastAPI REST API (HTTP JSON & multipart/form-data), SQLite in WAL mode, NVIDIA NIM REST API.", bullet))
+    story.append(Paragraph("• <b>Communication Protocol:</b> HTTPS / HTTP between browser and application server.", bullet))
+    story.append(Spacer(1, 6))
+
+    story.append(Paragraph("3.1.13 Data Requirements & Financial Heads", sec_heading))
+    t_data_req = Table([
+        [Paragraph("Field Name", th), Paragraph("Data Type", th), Paragraph("Mandatory", th), Paragraph("Description & Validation Rules", th)],
+        [Paragraph("pan", tc), Paragraph("String", tc), Paragraph("Yes", tc), Paragraph("10-character PAN adhering to [A-Z]{5}[0-9]{4}[A-Z].", tc)],
+        [Paragraph("name", tc), Paragraph("String", tc), Paragraph("Yes", tc), Paragraph("Taxpayer full name as stated on filing acknowledgment.", tc)],
+        [Paragraph("assessment_year", tc), Paragraph("String", tc), Paragraph("Yes", tc), Paragraph("AY format '2025-26' or '2026-27'.", tc)],
+        [Paragraph("gross_salary", tc), Paragraph("Decimal", tc), Paragraph("Yes", tc), Paragraph("Total gross salary before standard deduction u/s 16(ia).", tc)],
+        [Paragraph("deductions_80c", tc), Paragraph("Decimal", tc), Paragraph("No", tc), Paragraph("Life insurance, PPF, ELSS (capped at ₹1,50,000 u/s 80CCE).", tc)],
+        [Paragraph("deductions_80d", tc), Paragraph("Decimal", tc), Paragraph("No", tc), Paragraph("Health insurance premium u/s 80D (capped at ₹25k/₹50k).", tc)],
+        [Paragraph("vda_income", tc), Paragraph("Decimal", tc), Paragraph("No", tc), Paragraph("Virtual Digital Assets (crypto) gains taxed flat at 30% u/s 115BBH.", tc)],
+        [Paragraph("tds_total", tc), Paragraph("Decimal", tc), Paragraph("Yes", tc), Paragraph("Total Tax Deducted at Source credited against final liability.", tc)],
+    ], colWidths=[90, 60, 60, 250])
+    t_data_req.setStyle(TableStyle([
+        ('BOX', (0,0), (-1,-1), 1, colors.black),
+        ('INNERGRID', (0,0), (-1,-1), 0.5, colors.black),
+        ('TOPPADDING', (0,0), (-1,-1), 4),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+        ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
+    ]))
+    story.append(Paragraph("<b>Table 6: Extracted Financial Data Fields</b>", caption))
+    story.append(t_data_req)
+    story.append(PageBreak())
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 15: INFORMATION COLLECTION & ARCHITECTURE OVERVIEW
+    # ──────────────────────────────────────────────────────────────────────────
+    story.append(Paragraph("3.2 Information Collection", sec_heading))
+    story.append(Paragraph(
+        "To establish an authoritative statutory baseline, diverse information gathering techniques were evaluated:",
+        body
+    ))
+    t_info = Table([
+        [Paragraph("Method", th), Paragraph("Description", th), Paragraph("Advantages", th), Paragraph("Status", th)],
+        [Paragraph("Statutory Legal Analysis", tc), Paragraph("Review of Income Tax Act 1961, Finance Acts 2020-2024, and CBDT circulars.", tc), Paragraph("Authoritative, mathematically rigorous, defines exact slab rates.", tc), Paragraph("Primary", tc)],
+        [Paragraph("Sample Document Study", tc), Paragraph("Analysis of actual ITR-1, ITR-2, and ITR-4 acknowledgment PDFs and Form 16.", tc), Paragraph("Reveals real-world OCR layouts, table structures, and edge cases.", tc), Paragraph("Primary", tc)],
+        [Paragraph("CA Practitioner Interviews", tc), Paragraph("Consultation with practicing Chartered Accountants on audit computation formats.", tc), Paragraph("Defined required CA computation note layout and rounding conventions.", tc), Paragraph("Supporting", tc)],
+        [Paragraph("Prototyping", tc), Paragraph("Building small test parsers for pdfplumber and NVIDIA NIM LLM prompt templates.", tc), Paragraph("Validated JSON output schema and verified regex fallbacks.", tc), Paragraph("Iterative", tc)],
+    ], colWidths=[110, 140, 160, 50])
+    t_info.setStyle(TableStyle([
+        ('BOX', (0,0), (-1,-1), 1, colors.black),
+        ('INNERGRID', (0,0), (-1,-1), 0.5, colors.black),
+        ('TOPPADDING', (0,0), (-1,-1), 4),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+        ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
+    ]))
+    story.append(Paragraph("<b>Table 7: Information gathering methods and selection rationale</b>", caption))
+    story.append(t_info)
+    story.append(Spacer(1, 8))
+    story.append(Paragraph("3.3 System Architecture Overview", sec_heading))
+    story.append(Paragraph(
+        "AITR is structured into four distinct layers: Presentation (React + Three.js), API Routing (FastAPI), Service Execution "
+        "(Extractor & Tax Engines), and Persistence (SQLite / `/tmp` serverless storage). The next section presents the formal class hierarchy.",
+        body
+    ))
+    story.append(PageBreak())
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 16: FIGURE 3.1: CLASS DIAGRAM (CENTERED)
+    # ──────────────────────────────────────────────────────────────────────────
+    story.append(Paragraph("3.3.1 Object-Oriented Class Hierarchy", sec_heading))
+    story.append(Paragraph(
+        "The backend calculation engine employs an object-oriented architecture rooted in the abstract <code>BaseTaxEngine</code>, "
+        "subclassed into specialized engines for ITR-1, ITR-2 (with Section 115BBH VDA segregation), and ITR-4 (presumptive 44AD/ADA). "
+        "Report generators similarly implement the abstract <code>ReportService</code>.",
+        body
+    ))
+    story.append(Spacer(1, 10))
+    arch_img = os.path.join(diagrams_dir, "class_diag.png")
+    if os.path.exists(arch_img):
+        story.append(centered_img(arch_img, 460, 145))
+        story.append(Paragraph("Figure 3.1: Object-Oriented Backend Architecture and Engine Inheritance Hierarchy", caption))
+    story.append(Spacer(1, 10))
+    story.append(Paragraph(
+        "This polymorphic structure ensures future tax amendments can be incorporated by adding or modifying engine modules "
+        "without disrupting the FastAPI routing or database persistence layers.",
+        body
+    ))
+    story.append(PageBreak())
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 17: FIGURE 3.2: CHEN'S ER DIAGRAM (CENTERED)
+    # ──────────────────────────────────────────────────────────────────────────
+    story.append(Paragraph("3.4 Classical Chen's Entity-Relationship (ER) Diagram", sec_heading))
     story.append(Paragraph(
         "Conforming to standard DBMS academic modeling conventions, the schema encompasses 5 relational entities. "
         "<b>Rectangles</b> depict Entity sets (`SESSION`, `DOCUMENT`, `EXTRACTED_DATA`, `COMPUTATION`, `REPORT`), "
-        "<b>Diamonds</b> depict Relationships with cardinalities (1:1, 1:N), and <b>Ovals</b> depict individual Attributes with Primary Keys underlined.",
+        "<b>Diamonds</b> depict Relationships with cardinalities (1:1, 1:N), and <b>Ovals</b> depict individual Attributes with Primary Keys underlined:",
         body
     ))
+    story.append(Spacer(1, 8))
     er_img = os.path.join(diagrams_dir, "er_chen.png")
     if os.path.exists(er_img):
-        story.append(Image(er_img, width=460, height=290))
+        story.append(centered_img(er_img, 440, 375))
         story.append(Paragraph("Figure 3.2: Classical Chen's Entity-Relationship (ER) Diagram (Rectangles, Diamonds, Ovals)", caption))
-
-    # Use Case Diagram
-    story.append(Paragraph("3.5 Use Case Diagram & Actor Interactions", sec_heading))
-    story.append(Paragraph(
-        "Illustrates the primary user roles (Taxpayer / Chartered Accountant) interacting with document ingestion, "
-        "extraction validation, tax computation, and report generation boundaries.",
-        body
-    ))
-    uc_img = os.path.join(diagrams_dir, "usecase.png")
-    if os.path.exists(uc_img):
-        story.append(Image(uc_img, width=440, height=250))
-        story.append(Paragraph("Figure 3.3: Use Case Diagram for AITR System Actors and Operations", caption))
-
-    story.append(PageBreak())
-
-    # Sequence Diagram
-    story.append(Paragraph("3.6 Sequence Diagram: End-to-End Execution Flow", sec_heading))
-    story.append(Paragraph(
-        "Chronological interaction flow between React UI, FastAPI controllers, SQLite database, extraction services, "
-        "tax engines, and ReportLab document generators.",
-        body
-    ))
-    seq_img = os.path.join(diagrams_dir, "sequence_diag.png")
-    if os.path.exists(seq_img):
-        story.append(Image(seq_img, width=460, height=280))
-        story.append(Paragraph("Figure 3.4: Sequence Diagram for Ingestion, Verification, Computation, and Reporting", caption))
-
-    # Data Flow Diagrams
-    story.append(Paragraph("3.7 Data Flow Diagrams (Level 0 and Level 1)", sec_heading))
-    story.append(Paragraph("<b>Level 0 DFD (Context Diagram):</b> Defines boundaries between external actors and centralized system.", body))
-    dfd0_img = os.path.join(diagrams_dir, "dfd0.png")
-    if os.path.exists(dfd0_img):
-        story.append(Image(dfd0_img, width=440, height=130))
-        story.append(Paragraph("Figure 3.5: Level 0 DFD - Context Diagram", caption))
-
-    story.append(Paragraph("<b>Level 1 DFD (Decomposition):</b> Traces data flows across the 5 core processes and 4 data stores.", body))
-    dfd1_img = os.path.join(diagrams_dir, "dfd1.png")
-    if os.path.exists(dfd1_img):
-        story.append(Image(dfd1_img, width=460, height=270))
-        story.append(Paragraph("Figure 3.6: Level 1 DFD - Subsystem Decomposition and Data Store Operations", caption))
-
     story.append(PageBreak())
 
     # ──────────────────────────────────────────────────────────────────────────
-    # CHAPTER 4: SYSTEM IMPLEMENTATION
+    # PAGE 18: FIGURE 3.3: USE CASE DIAGRAM (CENTERED) & TABLE
+    # ──────────────────────────────────────────────────────────────────────────
+    story.append(Paragraph("3.5 Use Case Diagram & Main Use Case Descriptions", sec_heading))
+    story.append(Paragraph(
+        "The use case diagram models the operational boundaries between external actors (Individual Taxpayer, CA) and system processes:",
+        body
+    ))
+    story.append(Spacer(1, 6))
+    uc_img = os.path.join(diagrams_dir, "usecase.png")
+    if os.path.exists(uc_img):
+        story.append(centered_img(uc_img, 360, 320))
+        story.append(Paragraph("Figure 3.3: Use Case Diagram for AITR System Actors and Operations", caption))
+    story.append(Spacer(1, 6))
+
+    t_uc_desc = Table([
+        [Paragraph("Item", th), Paragraph("Use Case: Upload & Ingest Document", th), Paragraph("Use Case: Calculate Dual-Regime Tax", th)],
+        [Paragraph("Actor", tc), Paragraph("Taxpayer / Chartered Accountant", tc), Paragraph("Taxpayer / Chartered Accountant", tc)],
+        [Paragraph("Precondition", tc), Paragraph("Valid user session established; PDF/DOCX file ready.", tc), Paragraph("Document uploaded and financial heads reviewed.", tc)],
+        [Paragraph("Main Flow", tc), Paragraph("1. Select file; 2. Validate format; 3. Store file; 4. Run regex+LLM extraction.", tc), Paragraph("1. Select AY; 2. Trigger tax engines; 3. Compare Old vs New; 4. Recommend optimal.", tc)],
+        [Paragraph("Postcondition", tc), Paragraph("Document and extracted JSON stored in DB.", tc), Paragraph("Computation record saved; UI displays breakdown.", tc)],
+    ], colWidths=[70, 195, 195])
+    t_uc_desc.setStyle(TableStyle([
+        ('BOX', (0,0), (-1,-1), 1, colors.black),
+        ('INNERGRID', (0,0), (-1,-1), 0.5, colors.black),
+        ('TOPPADDING', (0,0), (-1,-1), 3.5),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 3.5),
+        ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
+    ]))
+    story.append(Paragraph("<b>Table 8: Core Use Case Specifications</b>", caption))
+    story.append(t_uc_desc)
+    story.append(PageBreak())
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 19: FIGURES 3.4 & 3.5: ACTIVITY DIAGRAMS (CENTERED)
+    # ──────────────────────────────────────────────────────────────────────────
+    story.append(Paragraph("3.6 Activity Diagrams: Ingestion & Tax Calculation", sec_heading))
+    story.append(Paragraph(
+        "Activity diagrams represent the step-by-step operational workflows of document ingestion and dual-regime tax calculation:",
+        body
+    ))
+    story.append(Spacer(1, 8))
+    act_up = os.path.join(diagrams_dir, "activity_upload.png")
+    if os.path.exists(act_up):
+        story.append(centered_img(act_up, 460, 52))
+        story.append(Paragraph("Figure 3.4: Activity Diagram: Document Ingestion, Text Validation & Extraction Workflow", caption))
+    story.append(Spacer(1, 15))
+
+    act_comp = os.path.join(diagrams_dir, "activity_compute.png")
+    if os.path.exists(act_comp):
+        story.append(centered_img(act_comp, 460, 81))
+        story.append(Paragraph("Figure 3.5: Activity Diagram: Dual-Regime Tax Computation & Optimal Recommendation Workflow", caption))
+    story.append(Spacer(1, 10))
+    story.append(Paragraph(
+        "Both workflows incorporate branching decision diamonds ensuring malformed documents or extreme financial outliers are gracefully caught.",
+        body
+    ))
+    story.append(PageBreak())
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 20: FIGURES 3.6 & 3.7: DATA FLOW DIAGRAMS (CENTERED)
+    # ──────────────────────────────────────────────────────────────────────────
+    story.append(Paragraph("3.7 Data Flow Diagrams (Level 0 and Level 1)", sec_heading))
+    story.append(Paragraph("<b>Level 0 DFD (Context Diagram):</b> Defines boundaries between external actors and centralized system:", body))
+    story.append(Spacer(1, 6))
+    dfd0_img = os.path.join(diagrams_dir, "dfd0.png")
+    if os.path.exists(dfd0_img):
+        story.append(centered_img(dfd0_img, 450, 52))
+        story.append(Paragraph("Figure 3.6: Level 0 DFD - Context Diagram", caption))
+    story.append(Spacer(1, 14))
+
+    story.append(Paragraph("<b>Level 1 DFD (Subsystem Decomposition):</b> Traces data flows across the 5 core processes and 4 data stores:", body))
+    story.append(Spacer(1, 6))
+    dfd1_img = os.path.join(diagrams_dir, "dfd1.png")
+    if os.path.exists(dfd1_img):
+        story.append(centered_img(dfd1_img, 450, 280))
+        story.append(Paragraph("Figure 3.7: Level 1 DFD - Subsystem Decomposition and Data Store Operations", caption))
+    story.append(PageBreak())
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 21: FIGURE 3.8: SEQUENCE DIAGRAM (CENTERED)
+    # ──────────────────────────────────────────────────────────────────────────
+    story.append(Paragraph("3.8 Sequence Diagram: End-to-End Workflow", sec_heading))
+    story.append(Paragraph(
+        "The sequence diagram captures chronological interactions between Taxpayer, React UI, FastAPI controllers, "
+        "database, extraction engine, tax calculation engine, and ReportLab report generator:",
+        body
+    ))
+    story.append(Spacer(1, 8))
+    seq_img = os.path.join(diagrams_dir, "sequence_diag.png")
+    if os.path.exists(seq_img):
+        story.append(centered_img(seq_img, 450, 310))
+        story.append(Paragraph("Figure 3.8: Sequence Diagram: Document Ingestion, Verification, Computation, and Reporting", caption))
+    story.append(PageBreak())
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 22: MODULES BREAKDOWN & TECH STACK
+    # ──────────────────────────────────────────────────────────────────────────
+    story.append(Paragraph("3.9 Description of Various Modules", sec_heading))
+    t_mod = Table([
+        [Paragraph("No.", th), Paragraph("Module Name", th), Paragraph("Description & Functional Scope", th), Paragraph("Related FRs", th)],
+        [Paragraph("1", tc), Paragraph("Taxpayer Session Portal", tc), Paragraph("Manages persistent browser sessions, linking filings to taxpayer identity.", tc), Paragraph("FR-001", tc)],
+        [Paragraph("2", tc), Paragraph("Ingestion & Validation", tc), Paragraph("Validates file format (PDF/DOCX <= 10MB), checks selectable text, stores file.", tc), Paragraph("FR-002", tc)],
+        [Paragraph("3", tc), Paragraph("Hybrid Extractor", tc), Paragraph("Parses text tables, executes Regex rules + NVIDIA NIM LLM inference.", tc), Paragraph("FR-003", tc)],
+        [Paragraph("4", tc), Paragraph("Review & Correction UI", tc), Paragraph("Displays parsed entities, allows user overrides, updates reviewed JSON.", tc), Paragraph("FR-004", tc)],
+        [Paragraph("5", tc), Paragraph("Multi-AY Configuration", tc), Paragraph("Switches statutory slab parameters between AY 2025-26 and 2026-27.", tc), Paragraph("FR-005", tc)],
+        [Paragraph("6", tc), Paragraph("Deterministic Tax Engine", tc), Paragraph("Executes Old & New Regime slab logic, Section 87A rebate, and 4% cess.", tc), Paragraph("FR-006, 007", tc)],
+        [Paragraph("7", tc), Paragraph("Statutory Rounding Unit", tc), Paragraph("Applies Section 288A (nearest ₹10) and Section 288B (nearest rupee) rounding.", tc), Paragraph("FR-008", tc)],
+        [Paragraph("8", tc), Paragraph("CA Audit Report Generator", tc), Paragraph("Compiles official Statement of Total Income in PDF and DOCX formats.", tc), Paragraph("FR-009", tc)],
+    ], colWidths=[25, 125, 240, 70])
+    t_mod.setStyle(TableStyle([
+        ('BOX', (0,0), (-1,-1), 1, colors.black),
+        ('INNERGRID', (0,0), (-1,-1), 0.5, colors.black),
+        ('TOPPADDING', (0,0), (-1,-1), 3.5),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 3.5),
+        ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
+    ]))
+    story.append(Paragraph("<b>Table 9: System Modules Description</b>", caption))
+    story.append(t_mod)
+    story.append(Spacer(1, 8))
+
+    story.append(Paragraph("3.10 System Development Tools & Tech Stack Justification", sec_heading))
+    story.append(Paragraph("• <b>Python 3.10+ / FastAPI:</b> Asynchronous high-concurrency API framework ensuring sub-50ms execution latency.", bullet))
+    story.append(Paragraph("• <b>React 18 / Vite:</b> High-speed client framework with modular state management and responsive styling via Tailwind CSS.", bullet))
+    story.append(Paragraph("• <b>Three.js WebGL:</b> Renders interactive GridScan background shader that visually tracks system extraction speed.", bullet))
+    story.append(Paragraph("• <b>SQLite in WAL Mode:</b> Lightweight, zero-configuration ACID database with serverless `/tmp` directory dynamic bindings.", bullet))
+    story.append(Paragraph("• <b>ReportLab & python-docx:</b> Industry-standard libraries for pixel-perfect PDF and native Microsoft Word generation.", bullet))
+    story.append(PageBreak())
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 23: TRACEABILITY & RISKS
+    # ──────────────────────────────────────────────────────────────────────────
+    story.append(Paragraph("3.11 Traceability and Acceptance Criteria (Summary)", sec_heading))
+    t_trace = Table([
+        [Paragraph("Requirement", th), Paragraph("Verification Method", th), Paragraph("Acceptance Criterion", th)],
+        [Paragraph("FR-001, NFR-03", tc), Paragraph("Session inspection", tc), Paragraph("Session ID and PAN persisted; records isolated per session.", tc)],
+        [Paragraph("FR-002, NFR-01", tc), Paragraph("File upload test", tc), Paragraph("Valid files accepted under 2s; scanned images rejected.", tc)],
+        [Paragraph("FR-003, NFR-02", tc), Paragraph("Extraction test suite", tc), Paragraph("PAN, salary, and TDS extracted; regex fallback works.", tc)],
+        [Paragraph("FR-005, FR-006", tc), Paragraph("Hand-calculated test cases", tc), Paragraph("Tax liability exactly matches CBDT official portal output.", tc)],
+        [Paragraph("FR-007", tc), Paragraph("VDA test filing", tc), Paragraph("Crypto gains taxed flat at 30% + 4% cess u/s 115BBH.", tc)],
+        [Paragraph("FR-008", tc), Paragraph("Rounding test suite", tc), Paragraph("Income rounded to nearest ₹10; tax rounded to nearest rupee.", tc)],
+        [Paragraph("FR-009", tc), Paragraph("Report download test", tc), Paragraph("PDF and DOCX download with complete CA statement.", tc)],
+    ], colWidths=[90, 130, 240])
+    t_trace.setStyle(TableStyle([
+        ('BOX', (0,0), (-1,-1), 1, colors.black),
+        ('INNERGRID', (0,0), (-1,-1), 0.5, colors.black),
+        ('TOPPADDING', (0,0), (-1,-1), 4),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+        ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
+    ]))
+    story.append(Paragraph("<b>Table 10: Traceability and Acceptance Criteria Matrix</b>", caption))
+    story.append(t_trace)
+    story.append(Spacer(1, 8))
+
+    story.append(Paragraph("3.12 Project Risks and Mitigation Strategies", sec_heading))
+    t_risk = Table([
+        [Paragraph("Risk Event", th), Paragraph("Severity", th), Paragraph("Proactive Mitigation Strategy", th)],
+        [Paragraph("Budget tax slabs change annually", tc), Paragraph("High", tc), Paragraph("Isolate slabs and limits in config.py; enable dynamic AY switching.", tc)],
+        [Paragraph("NVIDIA LLM API timeout / outage", tc), Paragraph("High", tc), Paragraph("Implement resilient deterministic regex primary extraction fallback.", tc)],
+        [Paragraph("Scanned / password-protected PDFs", tc), Paragraph("Medium", tc), Paragraph("Validate selectable text on upload; provide clear error prompt.", tc)],
+        [Paragraph("Floating-point rounding discrepancies", tc), Paragraph("Medium", tc), Paragraph("Enforce statutory Decimal rounding per Section 288A/B.", tc)],
+        [Paragraph("Serverless read-only filesystem crash", tc), Paragraph("High", tc), Paragraph("Bind dynamic /tmp storage for databases, uploads, and reports.", tc)],
+    ], colWidths=[130, 60, 270])
+    t_risk.setStyle(TableStyle([
+        ('BOX', (0,0), (-1,-1), 1, colors.black),
+        ('INNERGRID', (0,0), (-1,-1), 0.5, colors.black),
+        ('TOPPADDING', (0,0), (-1,-1), 4),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+        ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
+    ]))
+    story.append(Paragraph("<b>Table 11: Project Risks and Mitigation Register</b>", caption))
+    story.append(t_risk)
+    story.append(PageBreak())
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 24: CHAPTER 4: SYSTEM IMPLEMENTATION
     # ──────────────────────────────────────────────────────────────────────────
     story.append(Paragraph("Chapter 4: SYSTEM IMPLEMENTATION", chap_heading))
     story.append(Paragraph(
-        "This chapter outlines the implementation environment, file hierarchy, operation procedures, and operational screenshots "
-        "of the AI-Driven Income Tax Return Computation System.",
+        "This chapter outlines the practical implementation environment, hardware/software specifications, project codebase structure, "
+        "and operation manual with live user interface screenshots.",
         body
     ))
-
-    story.append(Paragraph("4.1 Hardware & Software Requirements", sec_heading))
+    story.append(Paragraph("4.1 Hardware Requirements", sec_heading))
     t_hw = Table([
         [Paragraph("Component", th), Paragraph("Minimum Requirement", th), Paragraph("Recommended Specification", th)],
         [Paragraph("Processor", tc), Paragraph("Dual-core 2.0 GHz or equivalent", tc), Paragraph("Quad-core Intel Core i5 / AMD Ryzen 5 or higher", tc)],
         [Paragraph("RAM", tc), Paragraph("4 GB RAM", tc), Paragraph("8 GB - 16 GB RAM", tc)],
         [Paragraph("Storage", tc), Paragraph("2 GB free disk space", tc), Paragraph("SSD with 5 GB free disk space", tc)],
         [Paragraph("Display", tc), Paragraph("1280 x 720 resolution", tc), Paragraph("1920 x 1080 Full HD (WebGL 2.0 capable GPU)", tc)],
-        [Paragraph("Operating System", tc), Paragraph("Windows 10/11, Ubuntu 22.04+, macOS", tc), Paragraph("Windows 11 / Linux (Ubuntu)", tc)],
     ], colWidths=[110, 175, 175])
     t_hw.setStyle(TableStyle([
         ('BOX', (0,0), (-1,-1), 1, colors.black),
@@ -508,124 +899,136 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
         ('BOTTOMPADDING', (0,0), (-1,-1), 4),
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
     ]))
-    story.append(Paragraph("<b>Table 4: Hardware specifications for development and execution</b>", caption))
+    story.append(Paragraph("<b>Table 12: Hardware specifications</b>", caption))
     story.append(t_hw)
     story.append(Spacer(1, 8))
 
-    # Project Structure Tree Screenshot
-    story.append(Paragraph("4.2 Project Codebase Structure", sec_heading))
-    story.append(Paragraph(
-        "The directory tree below illustrates the decoupled structure of the AITR codebase, highlighting the segregation between backend services, "
-        "FastAPI routers, deterministic tax calculation engines, and React SPA components:",
-        body
-    ))
-    tree_img = os.path.join(assets_dir, "project_structure.png")
-    if os.path.exists(tree_img):
-        story.append(Image(tree_img, width=420, height=450))
-        story.append(Paragraph("Figure 4.1: Comprehensive AITR Project Directory Structure and Architecture Map", caption))
-
-    story.append(PageBreak())
-
-    # Operation Manual with Screenshots
-    story.append(Paragraph("4.3 Operation Manual & User Interface Screenshots", sec_heading))
-    story.append(Paragraph(
-        "The following screenshots document the live execution of the AITR platform through its sequential user workflow:",
-        body
-    ))
-
-    # Screenshot: Taxpayer Session Portal
-    sess_img = os.path.join(assets_dir, "screen_taxpayer_session.png")
-    if os.path.exists(sess_img):
-        story.append(Paragraph("4.3.1 Taxpayer Session Portal (Authentication & Identity Binding)", subsec_heading))
-        story.append(Paragraph(
-            "Users initialize a persistent computation session by entering taxpayer name and PAN. Sessions are isolated in localStorage, "
-            "allowing multi-session computation without exposing unencrypted financial identity data:",
-            body
-        ))
-        story.append(Image(sess_img, width=320, height=360))
-        story.append(Paragraph("Figure 4.2: Taxpayer Session Portal Modal for Isolated Session Management", caption))
-        story.append(Spacer(1, 8))
-
-    # Screenshot: Upload Screen
-    up_img = os.path.join(assets_dir, "screen_upload.png")
-    if os.path.exists(up_img):
-        story.append(Paragraph("4.3.2 Document Ingestion Interface with Three.js WebGL GridScan Background", subsec_heading))
-        story.append(Paragraph(
-            "The upload zone accepts Form 16, salary slips, and ITR documents. During extraction, the Three.js WebGL shader background "
-            "dynamically accelerates to visually indicate processing status:",
-            body
-        ))
-        story.append(Image(up_img, width=460, height=260))
-        story.append(Paragraph("Figure 4.3: Document Ingestion Screen with Drag-and-Drop Zone and Three.js WebGL Shader", caption))
-
-    story.append(PageBreak())
-
-    # Screenshot: Results Screen
-    res_img = os.path.join(assets_dir, "screen_results.png")
-    if os.path.exists(res_img):
-        story.append(Paragraph("4.3.3 Dual-Regime Tax Computation Results & Recommendation", subsec_heading))
-        story.append(Paragraph(
-            "Displays side-by-side comparative cards for the Old Tax Regime and Section 115BAC New Tax Regime. "
-            "For taxpayer SHAKEV ULLAH KHAN (AY 2025-26), both regimes evaluate to ₹0 tax liability, resulting in an EQUAL REGIME "
-            "recommendation with full TDS refund of ₹10,238:",
-            body
-        ))
-        story.append(Image(res_img, width=460, height=270))
-        story.append(Paragraph("Figure 4.4: Dual-Regime Comparative Evaluation Screen with Automated Recommendation Banner", caption))
-        story.append(Spacer(1, 8))
-
-    # Screenshot: CA Report
-    ca_img = os.path.join(assets_dir, "screen_ca_report.png")
-    if os.path.exists(ca_img):
-        story.append(Paragraph("4.3.4 Chartered Accountant (CA) Computation Audit Statement", subsec_heading))
-        story.append(Paragraph(
-            "Clicking 'Download PDF' compiles a formal CA-format Statement of Total Income incorporating Section 288A rounding (to ₹4,050), "
-            "Section 115BAC computations, Chapter IV heads, and Old Regime comparison:",
-            body
-        ))
-        story.append(Image(ca_img, width=400, height=410))
-        story.append(Paragraph("Figure 4.5: Generated CA Audit Note / Computation of Total Income (PDF Report Export)", caption))
-
-    story.append(PageBreak())
-
-    # Backend APIs
-    story.append(Paragraph("4.4 Principal Backend API Endpoints", sec_heading))
-    t_api_data = [
-        [Paragraph("Method", th), Paragraph("Endpoint", th), Paragraph("Function & Description", th)],
-        [Paragraph("POST", tc), Paragraph("/api/upload", tc), Paragraph("Validates file structure (PDF/DOCX <= 10MB) and records DocumentModel.", tc)],
-        [Paragraph("POST", tc), Paragraph("/api/extract/{doc_id}", tc), Paragraph("Executes Regex + NVIDIA NIM LLM extraction; stores ExtractedDataModel.", tc)],
-        [Paragraph("GET", tc), Paragraph("/api/review/{ext_id}", tc), Paragraph("Retrieves extracted financial data for human-in-the-loop review.", tc)],
-        [Paragraph("PUT", tc), Paragraph("/api/review/{ext_id}", tc), Paragraph("Updates reviewed JSON following manual user overrides and corrections.", tc)],
-        [Paragraph("POST", tc), Paragraph("/api/compute/{ext_id}", tc), Paragraph("Runs deterministic tax engine for Old & New Regimes; records ComputationModel.", tc)],
-        [Paragraph("POST", tc), Paragraph("/api/reports/generate/{id}/{fmt}", tc), Paragraph("Compiles official CA audit report in PDF (ReportLab) or DOCX format.", tc)],
-        [Paragraph("GET", tc), Paragraph("/api/reports/download/{rep_id}", tc), Paragraph("Streams generated audit report file to the client for download.", tc)],
-        [Paragraph("GET", tc), Paragraph("/api/history/{session_id}", tc), Paragraph("Returns chronological list of documents, computations, and reports per session.", tc)],
-        [Paragraph("GET", tc), Paragraph("/api/health", tc), Paragraph("Health check returning system status and current active assessment year.", tc)],
-    ]
-    t_api = Table(t_api_data, colWidths=[50, 155, 255])
-    t_api.setStyle(TableStyle([
+    story.append(Paragraph("4.2 Software Requirements", sec_heading))
+    t_sw = Table([
+        [Paragraph("Component", th), Paragraph("Requirement & Technology Selected", th)],
+        [Paragraph("Operating System", tc), Paragraph("Windows 10/11, Linux (Ubuntu 22.04+), or macOS.", tc)],
+        [Paragraph("Backend Runtime", tc), Paragraph("Python 3.10+ with FastAPI, Uvicorn, SQLAlchemy, Pydantic v2.", tc)],
+        [Paragraph("Frontend Tooling", tc), Paragraph("Node.js 20+ with Vite, React 18, Tailwind CSS, Lucide React icons, Three.js.", tc)],
+        [Paragraph("Database", tc), Paragraph("SQLite3 with WAL mode; dynamic /tmp path for serverless cloud execution.", tc)],
+        [Paragraph("Deployment Platform", tc), Paragraph("Vercel Serverless Platform with vercel.json multi-build configuration.", tc)],
+    ], colWidths=[130, 330])
+    t_sw.setStyle(TableStyle([
         ('BOX', (0,0), (-1,-1), 1, colors.black),
         ('INNERGRID', (0,0), (-1,-1), 0.5, colors.black),
         ('TOPPADDING', (0,0), (-1,-1), 4),
         ('BOTTOMPADDING', (0,0), (-1,-1), 4),
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
     ]))
-    story.append(Paragraph("<b>Table 5: RESTful API Endpoints exposed by FastAPI Backend</b>", caption))
-    story.append(t_api)
-
+    story.append(Paragraph("<b>Table 13: Software requirements</b>", caption))
+    story.append(t_sw)
     story.append(PageBreak())
 
     # ──────────────────────────────────────────────────────────────────────────
-    # CHAPTER 5: RESULT AND DISCUSSION
+    # PAGE 25: FIGURE 4.1: PROJECT STRUCTURE TREE (CENTERED)
     # ──────────────────────────────────────────────────────────────────────────
-    story.append(Paragraph("Chapter 5: RESULT AND DISCUSSION", chap_heading))
+    story.append(Paragraph("4.3 Project Codebase Structure", sec_heading))
     story.append(Paragraph(
-        "This chapter evaluates the performance, accuracy, and statutory compliance of AITR across diverse taxpayer scenarios. "
-        "The system's deterministic calculation engines were benchmarked against official CBDT e-filing utilities.",
+        "The project follows a clean separation of concerns. The backend houses database models, routers, tax engines, "
+        "and document parsers, while the frontend manages React components, pages, and WebGL shaders:",
+        body
+    ))
+    story.append(Spacer(1, 6))
+    tree_img = os.path.join(assets_dir, "project_structure.png")
+    if os.path.exists(tree_img):
+        story.append(centered_img(tree_img, 360, 410))
+        story.append(Paragraph("Figure 4.1: Comprehensive AITR Project Directory Structure and Architecture Map", caption))
+    story.append(PageBreak())
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 26: SCREENSHOTS: SESSION PORTAL & UPLOAD SCREEN (CENTERED)
+    # ──────────────────────────────────────────────────────────────────────────
+    story.append(Paragraph("4.4 Operation Manual & User Interface Screenshots", sec_heading))
+    story.append(Paragraph(
+        "The following screenshots document the live execution of the AITR application across its primary operational states:",
         body
     ))
 
-    story.append(Paragraph("5.1 Interpretation of Results & Tax Slab Formulation", sec_heading))
+    # Screenshot: Session Modal (Centered)
+    sess_img = os.path.join(assets_dir, "screen_taxpayer_session.png")
+    if os.path.exists(sess_img):
+        story.append(Paragraph("4.4.1 Taxpayer Session Portal (Authentication & Identity Binding)", subsec_heading))
+        story.append(centered_img(sess_img, 220, 250))
+        story.append(Paragraph("Figure 4.2: Taxpayer Session Portal Modal for Dedicated Computation Sessions", caption))
+
+    # Screenshot: Upload Screen (Centered)
+    up_img = os.path.join(assets_dir, "screen_upload.png")
+    if os.path.exists(up_img):
+        story.append(Paragraph("4.4.2 Document Ingestion Interface with Three.js WebGL GridScan Background", subsec_heading))
+        story.append(centered_img(up_img, 380, 225))
+        story.append(Paragraph("Figure 4.3: Document Ingestion Interface with Three.js WebGL GridScan Shader Background", caption))
+    story.append(PageBreak())
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 27: SCREENSHOTS: RESULTS & CA STATEMENT (CENTERED)
+    # ──────────────────────────────────────────────────────────────────────────
+    # Screenshot: Results Screen (Centered)
+    res_img = os.path.join(assets_dir, "screen_results.png")
+    if os.path.exists(res_img):
+        story.append(Paragraph("4.4.3 Dual-Regime Tax Computation Results & Recommendation", subsec_heading))
+        story.append(Paragraph(
+            "Displays side-by-side comparative cards for the Old Tax Regime and Section 115BAC New Tax Regime for taxpayer SHAKEV ULLAH KHAN (AY 2025-26):",
+            body
+        ))
+        story.append(centered_img(res_img, 380, 265))
+        story.append(Paragraph("Figure 4.4: Dual-Regime Comparative Evaluation Screen with Automated Recommendation Banner", caption))
+
+    # Screenshot: CA Report (Centered)
+    ca_img = os.path.join(assets_dir, "screen_ca_report.png")
+    if os.path.exists(ca_img):
+        story.append(Paragraph("4.4.4 Chartered Accountant (CA) Computation Audit Statement", subsec_heading))
+        story.append(centered_img(ca_img, 260, 290))
+        story.append(Paragraph("Figure 4.5: Generated CA Audit Note / Computation of Total Income (PDF Report Export)", caption))
+    story.append(PageBreak())
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 28: API ENDPOINTS TABLE
+    # ──────────────────────────────────────────────────────────────────────────
+    story.append(Paragraph("4.5 Principal Backend API Endpoints", sec_heading))
+    t_api_data = [
+        [Paragraph("HTTP Method", th), Paragraph("Endpoint", th), Paragraph("Purpose & Description", th)],
+        [Paragraph("POST", tc), Paragraph("/api/upload", tc), Paragraph("Validates file structure (PDF/DOCX <= 10MB) and records DocumentModel.", tc)],
+        [Paragraph("POST", tc), Paragraph("/api/extract/{doc_id}", tc), Paragraph("Executes Regex + NVIDIA NIM LLM entity extraction; stores ExtractedDataModel.", tc)],
+        [Paragraph("GET", tc), Paragraph("/api/review/{ext_id}", tc), Paragraph("Retrieves extracted financial fields for human-in-the-loop review.", tc)],
+        [Paragraph("PUT", tc), Paragraph("/api/review/{ext_id}", tc), Paragraph("Updates reviewed JSON following manual user overrides and corrections.", tc)],
+        [Paragraph("POST", tc), Paragraph("/api/compute/{ext_id}", tc), Paragraph("Runs deterministic tax engine for Old & New Regimes; records ComputationModel.", tc)],
+        [Paragraph("POST", tc), Paragraph("/api/reports/generate/{id}/{fmt}", tc), Paragraph("Compiles official CA audit report in PDF (ReportLab) or DOCX format.", tc)],
+        [Paragraph("GET", tc), Paragraph("/api/reports/download/{id}", tc), Paragraph("Streams generated audit report file to the client for download.", tc)],
+        [Paragraph("GET", tc), Paragraph("/api/history/{session_id}", tc), Paragraph("Returns chronological list of documents, computations, and reports per session.", tc)],
+        [Paragraph("GET", tc), Paragraph("/api/health", tc), Paragraph("Health check returning system status and current active assessment year.", tc)],
+    ]
+    t_api = Table(t_api_data, colWidths=[65, 145, 250])
+    t_api.setStyle(TableStyle([
+        ('BOX', (0,0), (-1,-1), 1, colors.black),
+        ('INNERGRID', (0,0), (-1,-1), 0.5, colors.black),
+        ('TOPPADDING', (0,0), (-1,-1), 4.5),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 4.5),
+        ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
+    ]))
+    story.append(Paragraph("<b>Table 14: Main Backend REST API Endpoints</b>", caption))
+    story.append(t_api)
+    story.append(Spacer(1, 10))
+
+    story.append(Paragraph("4.6 Output Reports Description", sec_heading))
+    story.append(Paragraph("• <b>CA Audit Statement (PDF):</b> Non-editable vector PDF compiled with ReportLab, featuring statutory notes, Section 288A rounding, and regime comparison.", bullet))
+    story.append(Paragraph("• <b>CA Audit Statement (DOCX):</b> Editable Microsoft Word document for tax consultants who need to append custom annexures or notes.", bullet))
+    story.append(Paragraph("• <b>Interactive Dashboard View:</b> Real-time browser representation showing side-by-side liability cards and refund indicators.", bullet))
+    story.append(PageBreak())
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 29: CHAPTER 5: RESULT AND DISCUSSION
+    # ──────────────────────────────────────────────────────────────────────────
+    story.append(Paragraph("Chapter 5: RESULT AND DISCUSSION", chap_heading))
+    story.append(Paragraph("5.1 Interpretation of Results & Statutory Tax Slabs", sec_heading))
+    story.append(Paragraph(
+        "The system evaluates taxpayer documents against the statutory provisions of the Indian Income Tax Act, 1961. "
+        "The deterministic calculation engine implements the following slab parameters for AY 2025-26 and 2026-27:",
+        body
+    ))
     t_slabs = [
         [Paragraph("Tax Regime", th), Paragraph("Income Slabs (₹)", th), Paragraph("Tax Rate", th), Paragraph("Standard Deduction", th), Paragraph("Section 87A Rebate", th)],
         [Paragraph("Old Regime<br/>(AY 2025-26 & 2026-27)", tc), Paragraph("0 - 2,50,000<br/>2,50,001 - 5,00,000<br/>5,00,001 - 10,00,000<br/>Above 10,00,000", tc), Paragraph("Nil<br/>5%<br/>20%<br/>30%", tc), Paragraph("₹50,000 (Salary)", tc), Paragraph("Max ₹12,500<br/>(If Taxable Income <= ₹5,00,000)", tc)],
@@ -639,10 +1042,29 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
         ('BOTTOMPADDING', (0,0), (-1,-1), 4),
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
     ]))
-    story.append(Paragraph("<b>Table 6: Statutory Tax Slab Matrix for Dual Regime Assessment</b>", caption))
+    story.append(Paragraph("<b>Table 15: Statutory Tax Slab Matrix for Dual Regime Assessment</b>", caption))
     story.append(t_sl)
     story.append(Spacer(1, 8))
 
+    story.append(Paragraph("5.1.2 Dual-Regime Recommendation Logic", subsec_heading))
+    story.append(Paragraph(
+        "$$\\text{Recommended Regime} = \\begin{cases} "
+        "\\text{\"NEW\"}, & \\text{if } \\text{Tax}_{\\text{New}} < \\text{Tax}_{\\text{Old}} \\\\ "
+        "\\text{\"OLD\"}, & \\text{if } \\text{Tax}_{\\text{Old}} < \\text{Tax}_{\\text{New}} \\\\ "
+        "\\text{\"EQUAL\"}, & \\text{if } \\text{Tax}_{\\text{New}} = \\text{Tax}_{\\text{Old}} "
+        "\\end{cases}$$",
+        body
+    ))
+    story.append(Paragraph(
+        "When liabilities are equal (e.g. for low-income earners eligible for full Section 87A rebate), the system explicitly displays "
+        "the <b>EQUAL REGIME</b> banner, demonstrating complete neutrality and transparency.",
+        body
+    ))
+    story.append(PageBreak())
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 30: TEST SCENARIOS TC-01 TO TC-12
+    # ──────────────────────────────────────────────────────────────────────────
     story.append(Paragraph("5.2 Functional Test Scenarios (TC-01 to TC-12)", sec_heading))
     t_tc_data = [
         [Paragraph("Test ID", th), Paragraph("Test Scenario", th), Paragraph("Expected System Behaviour", th), Paragraph("Execution Status", th)],
@@ -667,12 +1089,13 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
         ('BOTTOMPADDING', (0,0), (-1,-1), 3),
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
     ]))
-    story.append(Paragraph("<b>Table 7: Functional Test Suite Execution Evidence (TC-01 to TC-12)</b>", caption))
+    story.append(Paragraph("<b>Table 17: Functional Test Suite Execution Evidence (TC-01 to TC-12)</b>", caption))
     story.append(t_tc)
-
     story.append(PageBreak())
 
-    # Comparison with existing system
+    # ──────────────────────────────────────────────────────────────────────────
+    # PAGE 31: COMPARISON WITH EXISTING SYSTEM & APPLICATION AREAS
+    # ──────────────────────────────────────────────────────────────────────────
     story.append(Paragraph("5.3 Comparison with the Existing System", sec_heading))
     t_comp_data = [
         [Paragraph("Basis of Comparison", th), Paragraph("Manual / Spreadsheet-Based Workflow", th), Paragraph("Proposed AITR System", th)],
@@ -687,17 +1110,23 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
     t_comp.setStyle(TableStyle([
         ('BOX', (0,0), (-1,-1), 1, colors.black),
         ('INNERGRID', (0,0), (-1,-1), 0.5, colors.black),
-        ('TOPPADDING', (0,0), (-1,-1), 4),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+        ('TOPPADDING', (0,0), (-1,-1), 3.5),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 3.5),
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
     ]))
-    story.append(Paragraph("<b>Table 8: Comparative evaluation: Manual Process vs. Proposed AITR System</b>", caption))
+    story.append(Paragraph("<b>Table 18: Comparative evaluation: Manual Process vs. Proposed AITR System</b>", caption))
     story.append(t_comp)
+    story.append(Spacer(1, 8))
 
-    story.append(Spacer(1, 10))
+    story.append(Paragraph("5.4 Practical Application Areas", sec_heading))
+    story.append(Paragraph("• <b>Individual Salaried Taxpayers:</b> Enables quick verification of Form 16 and optimization between Old and New Regimes.", bullet))
+    story.append(Paragraph("• <b>Chartered Accountant Firms:</b> Provides an auditable transcription and calculation tool, speeding up client filing workflows.", bullet))
+    story.append(Paragraph("• <b>Cryptocurrency Investors:</b> Segregates and computes complex Section 115BBH VDA liabilities without tedious manual tracking.", bullet))
+    story.append(Paragraph("• <b>Small Business Owners & Freelancers:</b> Streamlines Section 44AD and 44ADA presumptive filings with minimal inputs.", bullet))
+    story.append(PageBreak())
 
     # ──────────────────────────────────────────────────────────────────────────
-    # CHAPTER 6: CONCLUSION
+    # PAGE 32: CHAPTER 6: CONCLUSION & REFERENCES
     # ──────────────────────────────────────────────────────────────────────────
     story.append(Paragraph("Chapter 6: CONCLUSION", chap_heading))
     story.append(Paragraph(
@@ -707,7 +1136,6 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
         "The project demonstrates how modern web engineering, serverless deployments, and intelligent microservices can modernize tax compliance.",
         body
     ))
-
     story.append(Paragraph("6.1 Advantages and Special Features of the System", sec_heading))
     story.append(Paragraph("• <b>Zero Arithmetic Hallucination:</b> Pure deterministic statutory calculation engines ensure 100% computational accuracy.", bullet))
     story.append(Paragraph("• <b>Multi-Assessment Year Support:</b> Dynamically switches between AY 2025-26 and AY 2026-27 to reflect annual budget updates.", bullet))
@@ -717,17 +1145,10 @@ def build_academic_report_pdf(pdf_path: str, assets_dir: str, diagrams_dir: str)
     story.append(Paragraph("• <b>CA-Standard Report Export:</b> Exports formal computation sheets in non-editable PDF and editable Word DOCX.", bullet))
     story.append(Paragraph("• <b>Reactive WebGL User Interface:</b> Fast React 18 interface with an interactive Three.js GridScan shader background.", bullet))
 
-    story.append(Paragraph("6.2 Limitations", sec_heading))
-    story.append(Paragraph("• <b>Scanned Physical Documents:</b> Direct processing of scanned paper receipts or low-resolution image files is excluded.", bullet))
-    story.append(Paragraph("• <b>Live Portal Verification:</b> Live PAN/Aadhaar biometric authentication with CBDT servers requires specialized API gateway licenses.", bullet))
-    story.append(Paragraph("• <b>Corporate Entities:</b> Form ITR-5 (Partnership Firms) and Form ITR-6 (Companies) are outside the current individual taxpayer scope.", bullet))
+    story.append(Paragraph("6.2 Limitations & Future Scope", sec_heading))
+    story.append(Paragraph("• Direct OCR scanning of physical receipts and official CBDT JSON filing schema integrations represent logical next milestones.", bullet))
 
-    story.append(Paragraph("6.3 Future Scope", sec_heading))
-    story.append(Paragraph("• Integration with official CBDT JSON filing schema for 1-click return submission to the government portal.", bullet))
-    story.append(Paragraph("• OCR scanning of physical paper salary slips and donation receipts using computer vision neural networks.", bullet))
-    story.append(Paragraph("• Automated parsing of Annual Information Statements (AIS) and Tax Information Summaries (TIS).", bullet))
-
-    story.append(Spacer(1, 10))
+    story.append(Spacer(1, 6))
     story.append(Paragraph("REFERENCES", sec_heading))
     refs = [
         "1. Central Board of Direct Taxes (CBDT). (2024). Income Tax Rules, Slabs and Return Preparation Utilities. Ministry of Finance, Govt. of India.",
@@ -752,4 +1173,4 @@ if __name__ == "__main__":
     out_pdf = r"D:\Python\AITR\AITR_Academic_Project_Report.pdf"
     assets = r"D:\Python\AITR\report_assets"
     diagrams = r"D:\Python\AITR\srs_diagrams"
-    build_academic_report_pdf(out_pdf, assets, diagrams)
+    build_academic_30p_pdf(out_pdf, assets, diagrams)
